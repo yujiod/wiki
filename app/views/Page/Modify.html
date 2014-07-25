@@ -1,0 +1,26 @@
+{{set . "title" .pageName}}
+{{template "header.html" .}}
+
+<div class="container" role="main">
+
+    <div class="page-header">
+        <h1>Editing {{.pageName}}</h1>
+    </div>
+
+    {{template "flash.html" .}}
+
+    <form method="POST" action="/page/{{urlquery .pageName}}/modify">
+        <p><textarea id="Editor" name="PageBody">{{.body}}</textarea></p>
+        <p><button class="btn btn-info">Save</button></p>
+    </form>
+
+</div>
+
+{{template "footer.html" .}}
+
+<script>
+$(function () {
+    var editor = new Editor();
+    editor.render();
+});
+</script>

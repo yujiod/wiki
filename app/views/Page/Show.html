@@ -1,0 +1,20 @@
+{{set . "title" .pageName}}
+{{template "header.html" .}}
+
+<div class="container" role="main">
+
+    <div class="page-header">
+        <h1>{{.pageName}}</h1>
+    </div>
+
+    <a href="/page/{{urlquery .pageName}}/modify" class="btn btn-info">Edit</a>
+
+    {{template "flash.html" .}}
+
+    <div class="contents">
+        {{raw .html}}
+    </div>
+
+</div>
+
+{{template "footer.html" .}}
