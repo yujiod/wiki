@@ -5,23 +5,19 @@
 {{append . "moreStyles" "css/editor.css"}}
 {{template "header.html" .}}
 
-<div class="container" role="main">
-
-    <div class="page-header clearfix">
-        <a href="/page/{{urlquery .pageName}}" class="btn btn-default btn-sm btn-back"><span class="glyphicon glyphicon-chevron-left"></span></a>
-        <h1>Editing: {{.pageName}}</h1>
-        {{template "Page/actions.html" .}}
-    </div>
-
-    {{template "flash.html" .}}
-
-    <form method="POST" action="/page/{{urlquery .pageName}}/modify">
-        <input type="hidden" name="PageHash" value="{{.hash}}">
-        <p><textarea id="Editor" name="PageBody">{{.body}}</textarea></p>
-        <p><button class="btn btn-primary">Save</button></p>
-    </form>
-
+<div class="page-header clearfix">
+    <a href="/page/{{urlquery .pageName}}" class="btn btn-default btn-sm btn-back"><span class="glyphicon glyphicon-chevron-left"></span></a>
+    <h1>Editing: {{.pageName}}</h1>
+    {{template "Page/actions.html" .}}
 </div>
+
+{{template "flash.html" .}}
+
+<form method="POST" action="/page/{{urlquery .pageName}}/modify">
+    <input type="hidden" name="PageHash" value="{{.hash}}">
+    <p><textarea id="Editor" name="PageBody">{{.body}}</textarea></p>
+    <p><button class="btn btn-primary">Save</button></p>
+</form>
 
 {{template "footer.html" .}}
 

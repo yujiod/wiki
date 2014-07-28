@@ -1,13 +1,12 @@
-    <!-- Split button -->
-    <div class="btn-group btn-actions">
-        <a href="/page/{{urlquery .pageName}}/modify" class="btn btn-info">Edit</a>
-        <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown">
-        <span class="caret"></span>
-        <span class="sr-only">Toggle Dropdown</span>
-        </button>
-        <ul class="dropdown-menu" role="menu">
-            <li><a href="/page/{{urlquery .pageName}}/revisions">Revision</a></li>
-            <li><a href="#">//Permission</a></li>
-            <li><a href="#">//Attachment</a></li>
-        </ul>
-    </div>
+<div class="btn-group btn-actions">
+    <a href="/page/{{urlquery .pageName}}/modify" class="btn btn-info">Edit</a>
+    <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown">
+    <span class="caret"></span>
+    <span class="sr-only">Toggle Dropdown</span>
+    </button>
+    <ul class="dropdown-menu" role="menu">
+        <li><a href="/page/{{urlquery .pageName}}/revisions">Revision</a></li>
+        <li><a href="#">//Permission</a></li>
+        <li><a href="#">//Attachment</a></li>
+    </ul>
+</div>

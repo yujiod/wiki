@@ -1,32 +1,44 @@
 {{set . "title" .pageName}}
 {{template "header.html" .}}
 
-<div class="container" role="main">
+<div class="page-header clearfix">
+    <a href="/page/{{urlquery .pageName}}" class="btn btn-default btn-sm btn-back"><span class="glyphicon glyphicon-chevron-left"></span></a>
+    <h1>Revisions: {{.pageName}}</h1>
+    {{template "Page/actions.html" .}}
+</div>
 
-    <div class="page-header clearfix">
-        <a href="/page/{{urlquery .pageName}}" class="btn btn-default btn-sm btn-back"><span class="glyphicon glyphicon-chevron-left"></span></a>
-        <h1>Revisions: {{.pageName}}</h1>
-        {{template "Page/actions.html" .}}
-    </div>
+{{template "flash.html" .}}
 
-    {{template "flash.html" .}}
-
-    <div class="contents">
-        <table class="table table-striped">
+<div class="row">
+    <div class="col-md-4">
+        <table class="table table-hover table-revisions">
             <tr>
                 <th>#</th>
                 <th>Modified</th>
             </tr>
             {{$revisionSize := .revisionSize}}
+            {{$pageName := .pageName}}
             {{range $i, $revision := .revisions}}
-            <tr>
-                <th>{{minus $revisionSize $i}}</th>
-                <th>{{date "2006-01-02 15:04:05" .UpdatedAt}}</th>
+            <tr data-href="/page/{{urlquery $pageName}}/diff/{{.Id}}" class="show-diff">
+                <td>{{minus $revisionSize $i}}</td>
+                <td>{{date "2006-01-02 15:04:05" .CreatedAt}}</td>
             </tr>
             {{end}}
         </table>
     </div>
-
+    <div class="col-md-8">
+        <div class="diff">
+        </div>
+    </div>
 </div>
+
+<script>
+$(function () {
+    $('.show-diff td').click(function () {
+        console.log($(this).parents('tr').attr('data-href'));
+        $('.diff').load($(this).parents('tr').attr('data-href'));
+    });
+});
+</script>
 
 {{template "footer.html" .}}

@@ -1,22 +1,22 @@
 {{set . "title" .pageName}}
 {{template "header.html" .}}
 
-<div class="container" role="main">
+<div class="page-header clearfix">
+    {{if ne .pageName "Home"}}
+    <a href="/" class="btn btn-default btn-sm btn-back"><span class="glyphicon glyphicon-chevron-left"></span></a>
+    {{end}}
+    <h1>{{.pageName}}</h1>
+    {{template "Page/actions.html" .}}
+</div>
 
-    <div class="page-header clearfix">
-        {{if ne .pageName "Home"}}
-        <a href="/" class="btn btn-default btn-sm btn-back"><span class="glyphicon glyphicon-chevron-left"></span></a>
-        {{end}}
-        <h1>{{.pageName}}</h1>
-        {{template "Page/actions.html" .}}
-    </div>
+{{template "flash.html" .}}
 
-    {{template "flash.html" .}}
+<div class="contents">
+    {{raw .html}}
+</div>
 
-    <div class="contents">
-        {{raw .html}}
-    </div>
-
+<div class="page-revision">
+    Revision: #{{.revision}} {{date "2006-01-02 15:04:05" .page.UpdatedAt}}
 </div>
 
 {{template "footer.html" .}}

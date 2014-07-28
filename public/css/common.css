@@ -26,12 +26,70 @@ body {
     min-width: 0;
 }
 
+.page-revision {
+    color: #999;
+    font-size: 14px;
+    padding: 10px 0;
+    margin: 20px 0 0 0;
+}
+
 .contents {
     margin-top: 20px;
     font-size: 16px;
 }
 
-.container[role=footer] {
-    text-align: right;
+.page-footer {
+    border-top: 1px solid #eee;
+    margin: 15px 0 0 0;
+    padding: 15px 0 0 0;
+}
+
+.page-footer .poweredby {
+    float: right;
     color: #888;
+}
+
+tr.show-diff td {
+    cursor: pointer;
+}
+
+.diff table {
+    width: 100%;
+    background-color: lightgrey;
+    border-spacing: 1px;
+}
+
+.diff tr {
+    background-color: white;
+}
+
+.diff .line {
+    width: 50%;
+}
+
+.diff .line-num {
+    width: 0px;
+    display: none;
+}
+
+.diff .added {
+    background-color: #9e9;
+}
+
+.diff .deleted {
+    background-color: #e99;
+}
+
+.diff pre {
+    display: block;
+    padding: 0;
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.3;
+    color: #000;
+    word-break: break-all;
+    word-wrap: break-word;
+    background-color: inherit;
+    border: 0;
+    border-radius: 0;
 }
