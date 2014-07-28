@@ -26,7 +26,9 @@ func InitDB() {
     }
 
     DB.LogMode(true)
+
     DB.AutoMigrate(models.Page{})
+    DB.AutoMigrate(models.Revision{})
 
     DB.Model(models.Page{}).AddUniqueIndex("unique_title", "title")
 }

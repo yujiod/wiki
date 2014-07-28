@@ -1,0 +1,32 @@
+{{set . "title" .pageName}}
+{{template "header.html" .}}
+
+<div class="container" role="main">
+
+    <div class="page-header clearfix">
+        <a href="/page/{{urlquery .pageName}}" class="btn btn-default btn-sm btn-back"><span class="glyphicon glyphicon-chevron-left"></span></a>
+        <h1>Revisions: {{.pageName}}</h1>
+        {{template "Page/actions.html" .}}
+    </div>
+
+    {{template "flash.html" .}}
+
+    <div class="contents">
+        <table class="table table-striped">
+            <tr>
+                <th>#</th>
+                <th>Modified</th>
+            </tr>
+            {{$revisionSize := .revisionSize}}
+            {{range $i, $revision := .revisions}}
+            <tr>
+                <th>{{minus $revisionSize $i}}</th>
+                <th>{{date "2006-01-02 15:04:05" .UpdatedAt}}</th>
+            </tr>
+            {{end}}
+        </table>
+    </div>
+
+</div>
+
+{{template "footer.html" .}}

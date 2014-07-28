@@ -1,5 +1,10 @@
-  {{if eq .RunMode "dev"}}
-    {{template "debug.html" .}}
-  {{end}}
-  </body>
+    <div class="container" role="footer">
+    <hr>
+    Powered by Wiki
+    </div>
+
+    {{if eq .RunMode "dev"}}
+        {{template "debug.html" .}}
+    {{end}}
+    </body>
 </html>

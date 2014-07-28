@@ -3,11 +3,13 @@
 
 <div class="container" role="main">
 
-    <div class="page-header">
+    <div class="page-header clearfix">
+        {{if ne .pageName "Home"}}
+        <a href="/" class="btn btn-default btn-sm btn-back"><span class="glyphicon glyphicon-chevron-left"></span></a>
+        {{end}}
         <h1>{{.pageName}}</h1>
+        {{template "Page/actions.html" .}}
     </div>
-
-    <a href="/page/{{urlquery .pageName}}/modify" class="btn btn-info">Edit</a>
 
     {{template "flash.html" .}}
 

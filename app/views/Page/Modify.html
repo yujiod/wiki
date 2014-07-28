@@ -1,17 +1,24 @@
 {{set . "title" .pageName}}
+{{append . "moreScripts" "js/jquery-ui-1.7.2.custom.min.js"}}
+{{append . "moreScripts" "js/marked.js"}}
+{{append . "moreScripts" "js/editor.js"}}
+{{append . "moreStyles" "css/editor.css"}}
 {{template "header.html" .}}
 
 <div class="container" role="main">
 
-    <div class="page-header">
-        <h1>Editing {{.pageName}}</h1>
+    <div class="page-header clearfix">
+        <a href="/page/{{urlquery .pageName}}" class="btn btn-default btn-sm btn-back"><span class="glyphicon glyphicon-chevron-left"></span></a>
+        <h1>Editing: {{.pageName}}</h1>
+        {{template "Page/actions.html" .}}
     </div>
 
     {{template "flash.html" .}}
 
     <form method="POST" action="/page/{{urlquery .pageName}}/modify">
+        <input type="hidden" name="PageHash" value="{{.hash}}">
         <p><textarea id="Editor" name="PageBody">{{.body}}</textarea></p>
-        <p><button class="btn btn-info">Save</button></p>
+        <p><button class="btn btn-primary">Save</button></p>
     </form>
 
 </div>
