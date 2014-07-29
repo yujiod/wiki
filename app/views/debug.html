@@ -8,6 +8,7 @@
 	#toggleSidebar {
         color: #555;
         float: right;
+        margin-top: 10px;
 	}
 
 </style>
@@ -37,7 +38,7 @@
     	{{end}}
     	</dl>
     </div>
-    <a id="toggleSidebar" href="#" class="toggles">Debug info</a>
+    <a id="toggleSidebar" href="#" class="toggles"><i class="fa fa-bug"></i> Debug info</a>
 </div>
 
 <script>
@@ -55,7 +56,6 @@
 			$('#toggleSidebar i').removeClass('icon-chevron-left');
 			$sidebar = 1;
 		}
-
-    return false;
+        return false;
 	});
 </script>

@@ -1,4 +1,12 @@
         <div class="page-footer clearfix">
+
+            {{if gt .footerPageRevision 0}}
+            <div class="page-revision">
+                <i class="fa fa-history"></i>
+                Revision: #{{.footerPageRevision}} {{date "2006-01-02 15:04:05" .footerPageUpdatedAt}}
+            </div>
+            {{end}}
+
             <div class="poweredby">
                 Powered by Wiki
             </div>

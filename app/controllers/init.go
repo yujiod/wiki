@@ -2,6 +2,7 @@ package controllers
 
 import (
     "time"
+    "reflect"
     "github.com/revel/revel"
 )
 
@@ -64,5 +65,18 @@ func init() {
     // 書式化には 2006-01-02 15:04:05 -0700 MST の日時を指定する
     revel.TemplateFuncs["date"] = func(format string, time time.Time) string {
         return time.Local().Format(format)
+    }
+
+    revel.TemplateFuncs["len_gt"] = func(arg interface{}, length int) bool {
+        if reflect.TypeOf(arg).Kind() == reflect.Slice {
+            return reflect.ValueOf(arg).Len() > length
+        }
+        return false
+    }
+    revel.TemplateFuncs["len_lt"] = func(arg interface{}, length int) bool {
+        if reflect.TypeOf(arg).Kind() == reflect.Slice {
+            return reflect.ValueOf(arg).Len() < length
+        }
+        return false
     }
 }

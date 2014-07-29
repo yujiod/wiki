@@ -11,22 +11,53 @@
 
 {{template "flash.html" .}}
 
-<div class="contents">
-    {{if gt .revision 0}}
-    {{raw .html}}
-    {{else}}
-        <div class="page-not-found">
-            <h3>This page is not created.</h3>
-            <p><a href="/page/{{urlquery .pageName}}/modify" class="btn btn-info btn-lg">Create now</a></p>
+<div class="row">
+    <div class="col-md-9 col-sm-8">
+        <div class="contents">
+            {{if gt .revision 0}}
+            {{raw .html}}
+            {{else}}
+                <div class="page-not-found">
+                    <h3>This page is not created.</h3>
+                    <p><a href="/page/{{urlquery .pageName}}/modify" class="btn btn-info btn-lg">Create now</a></p>
+                </div>
+            {{end}}
         </div>
-    {{end}}
+    </div>
+    <div class="col-md-3 col-sm-4 sidebar">
+        <hr class="visible-xs-block">
+
+        {{if len_gt .recentCreatedPages 0}}
+        <div class="sidebar-block">
+            <h4><i class="fa fa-plus"></i> Recent Created Pages</h4>
+            <ul>
+                {{range .recentCreatedPages}}
+                <li>
+                    <a href="/page/{{urlquery .Title}}">{{.Title}}</a><br>
+                    <span class="created"><i class="fa fa-clock-o"></i> {{date "2006-01-02 15:04:05" .CreatedAt}}</span>
+                </li>
+                {{end}}
+            </ul>
+        </div>
+        {{end}}
+
+        {{if len_gt .recentUpdatedPages 0}}
+        <div class="sidebar-block">
+            <h4><i class="fa fa-pencil"></i> Recent Updated Pages</h4>
+            <ul>
+                {{range .recentUpdatedPages}}
+                <li>
+                    <a href="/page/{{urlquery .Title}}">{{.Title}}</a><br>
+                    <span class="created"><i class="fa fa-clock-o"></i> {{date "2006-01-02 15:04:05" .UpdatedAt}}</span>
+                </li>
+                {{end}}
+            </ul>
+        </div>
+        {{end}}
+    </div>
 </div>
 
-{{if gt .revision 0}}
-<div class="page-revision">
-    <i class="fa fa-history"></i>
-    Revision: #{{.revision}} {{date "2006-01-02 15:04:05" .page.UpdatedAt}}
-</div>
-{{end}}
+{{set . "footerPageRevision" .revision}}
+{{set . "footerPageUpdatedAt" .page.UpdatedAt}}
 
 {{template "footer.html" .}}

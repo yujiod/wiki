@@ -7,7 +7,6 @@ import (
     "html"
     "crypto/sha1"
     "fmt"
-    "bytes"
     "strings"
     "github.com/pmezard/go-difflib/difflib"
     "github.com/revel/revel"
@@ -52,7 +51,22 @@ func (c Page) Show() revel.Result {
     revision := 0
     c.db.Model(models.Revision{}).Where("page_id = ?", page.Id).Count(&revision)
 
-    return c.Render(pageName, body, html, page, revision)
+    // 最近登録されたページ一覧を取得
+    recentCreatedPages := []models.Page{}
+    c.db.Order("created_at desc").Limit(10).Find(&recentCreatedPages)
+
+    // 最近更新されたページ一覧を取得
+    recentUpdatedPages := []models.Page{}
+    c.db.Where("created_at != updated_at").Order("updated_at desc").Limit(10).Find(&recentUpdatedPages)
+
+    return c.Render(pageName, body, html, page, revision, recentCreatedPages, recentUpdatedPages)
+}
+
+// ページ一覧を表示する
+func (c Page) List() revel.Result {
+    pages := []models.Page{}
+    c.db.Find(&pages)
+    return c.Render(pages)
 }
 
 // ページを編集する
@@ -159,15 +173,9 @@ func (c Page) Diff(pageName string, revisionId string) revel.Result {
     }
     diffString, _ := difflib.GetUnifiedDiffString(unifiedDiff)
     diffLines := difflib.SplitLines(diffString)
-    buffer := bytes.Buffer{}
 
     // unified diff のヘッダーを除去する
-    for i, line := range diffLines {
-        if i > 2 {
-            buffer.WriteString(line)
-        }
-    }
-    diff := strings.TrimSpace(buffer.String())
+    diff := strings.Join(diffLines[3:], "")
 
     return c.Render(diff, revision, previous)
 }

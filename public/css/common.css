@@ -2,6 +2,10 @@ body {
   padding-bottom: 30px;
 }
 
+.page-header {
+    border-bottom: 1px solid #ddd;
+    margin: 40px 0 15px;
+}
 .page-header .btn-back {
     float: left;
     margin-right: 15px;
@@ -28,36 +32,34 @@ body {
     min-width: 0;
 }
 
-.page-revision {
-    color: #999;
-    font-size: 14px;
-    padding: 10px 0;
-    margin: 20px 0 0 0;
-}
-
 .page-not-found {
     margin: 0 0 30px 0;
 }
 
-.contents {
-    margin-top: 20px;
-    font-size: 16px;
-}
-
 .page-footer {
-    border-top: 1px solid #eee;
+    border-top: 1px solid #ddd;
     margin: 15px 0 0 0;
     padding: 15px 0 0 0;
+    color: #888;
+}
+
+.page-footer .page-revision {
+    float: left;
+    color: #999;
+    font-size: 14px;
 }
 
 .page-footer .poweredby {
     float: right;
-    color: #888;
 }
 
 /*
   Page.show
 */
+
+.contents {
+    font-size: 16px;
+}
 
 .contents li {
     margin: 0 0 3px 0;
@@ -66,6 +68,39 @@ body {
 .contents li p {
     margin: 0;
 }
+
+.sidebar hr {
+    margin-top: 15px;
+    border-top: 1px solid #ddd;
+}
+
+.sidebar .sidebar-block {
+    margin-bottom: 30px;
+}
+
+.sidebar .sidebar-block:last-child {
+    margin-bottom: 0px;
+}
+
+.sidebar .sidebar-block h4 {
+    margin-top: 0;
+}
+
+.sidebar .sidebar-block ul {
+    padding: 0;
+}
+
+.sidebar .sidebar-block li {
+    list-style-type: none;
+    margin-bottom: 5px;
+}
+
+.sidebar .sidebar-block .created,
+.sidebar .sidebar-block .updated {
+    color: #888;
+    font-size: 12px;
+}
+
 
 /*
   Page.modify
