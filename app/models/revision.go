@@ -5,6 +5,7 @@ import (
     _ "github.com/revel/revel"
 )
 
+// ページのリビジョン情報を持つ構造体
 type Revision struct {
     Id   int
     PageId int

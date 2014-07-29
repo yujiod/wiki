@@ -17,6 +17,7 @@ var (
     DB gorm.DB
 )
 
+// 自動マイグレーションを行う
 func InitDB() {
     var err error
     DB, err = gorm.Open("sqlite3", "./app.db")
@@ -33,16 +34,19 @@ func InitDB() {
     DB.Model(models.Page{}).AddUniqueIndex("unique_title", "title")
 }
 
+// トランザクションを開始する
 func (c *GormController) Begin() revel.Result {
     c.db = DB
     return nil
 }
 
+// トランザクションを確定する
 func (c *GormController) Commit() revel.Result {
     c.db = DB
     return nil
 }
 
+// トランザクションを破棄する
 func (c *GormController) Rollback() revel.Result {
     c.db = DB
     return nil

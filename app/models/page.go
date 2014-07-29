@@ -5,6 +5,7 @@ import (
     "github.com/revel/revel"
 )
 
+// ページ情報を持つ構造体
 type Page struct {
     Id   int
     Title string `sql:"size:255"`
