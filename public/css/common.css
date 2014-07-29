@@ -58,6 +58,11 @@ body {
 /*
   Page.show
 */
+
+.contents li {
+    margin: 0 0 3px 0;
+}
+
 .contents li p {
     margin: 0;
 }
