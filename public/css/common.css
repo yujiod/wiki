@@ -5,13 +5,14 @@ body {
 .page-header .btn-back {
     float: left;
     margin-right: 15px;
-    margin-top: 0.4em;
+    margin-top: 0.2em;
     color: #666;
 }
 
 .page-header h1 {
     float: left;
     margin-top: 0;
+    font-size: 30px;
 }
 
 .page-header .btn-actions {
@@ -52,6 +53,13 @@ body {
 .page-footer .poweredby {
     float: right;
     color: #888;
+}
+
+/*
+  Page.show
+*/
+.contents li p {
+    margin: 0;
 }
 
 /*

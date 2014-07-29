@@ -17,28 +17,28 @@ func init() {
     // 四則演算を行うテンプレート関数を定義
     revel.TemplateFuncs["add"] = func(args ...int) int {
         result := 0
-        for i, value := range args {
+        for _, value := range args {
             result += value
         }
         return result
     }
     revel.TemplateFuncs["subtract"] = func(args ...int) int {
         result := 0
-        for i, value := range args {
+        for _, value := range args {
             result -= value
         }
         return result
     }
     revel.TemplateFuncs["multiply"] = func(args ...int) int {
         result := 0
-        for i, value := range args {
+        for _, value := range args {
             result *= value
         }
         return result
     }
     revel.TemplateFuncs["divide"] = func(args ...int) int {
         result := 0
-        for i, value := range args {
+        for _, value := range args {
             result /= value
         }
         return result

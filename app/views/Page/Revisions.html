@@ -26,7 +26,7 @@
                 {{$pageName := .pageName}}
                 {{range $i, $revision := .revisions}}
                 <tr data-href="/page/{{urlquery $pageName}}/diff/{{.Id}}" class="show-diff">
-                    <td>{{minus $revisionSize $i}}</td>
+                    <td>{{subtract $revisionSize $i}}</td>
                     <td>
                         {{date "2006-01-02 15:04" .CreatedAt}}
                         {{if gt .AddedLines 0}}
