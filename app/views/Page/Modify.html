@@ -1,22 +1,30 @@
 {{set . "title" .pageName}}
-{{append . "moreScripts" "js/jquery-ui-1.7.2.custom.min.js"}}
-{{append . "moreScripts" "js/marked.js"}}
-{{append . "moreScripts" "js/editor.js"}}
-{{append . "moreStyles" "css/editor.css"}}
+{{append . "moreScripts" "/public/js/marked.js"}}
+{{append . "moreScripts" "/public/js/editor.js"}}
+{{append . "moreStyles" "/public/css/editor.css"}}
 {{template "header.html" .}}
 
-<div class="page-header clearfix">
-    <a href="/page/{{urlquery .pageName}}" class="btn btn-default btn-sm btn-back"><span class="glyphicon glyphicon-chevron-left"></span></a>
-    <h1>Editing: {{.pageName}}</h1>
-    {{template "Page/actions.html" .}}
-</div>
+{{set . "action" "modify"}}
+
+<form method="POST" action="/page/{{urlquery .pageName}}/modify">
+
+    <div class="page-header clearfix">
+        <a href="/page/{{urlquery .pageName}}" class="btn btn-default btn-sm btn-back"><i class="fa fa-arrow-left"></i></a>
+        <h1>Editing: {{.pageName}}</h1>
+        {{template "Page/actions.html" .}}
+    </div>
 
 {{template "flash.html" .}}
 
-<form method="POST" action="/page/{{urlquery .pageName}}/modify">
-    <input type="hidden" name="PageHash" value="{{.hash}}">
-    <p><textarea id="Editor" name="PageBody">{{.body}}</textarea></p>
-    <p><button class="btn btn-primary">Save</button></p>
+    <input type="hidden" name="page.Hash" value="{{.hash}}">
+
+    {{with $field := field "page.Body" .}}
+        <p class="{{$field.ErrorClass}}">
+            <textarea id="Editor" name="{{$field.Name}}">{{$field.Value}}</textarea>
+        </p>
+        <span class="error">{{$field.Error}}</span>
+    {{end}}
+
 </form>
 
 {{template "footer.html" .}}

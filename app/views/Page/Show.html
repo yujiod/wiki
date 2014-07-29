@@ -3,7 +3,7 @@
 
 <div class="page-header clearfix">
     {{if ne .pageName "Home"}}
-    <a href="/" class="btn btn-default btn-sm btn-back"><span class="glyphicon glyphicon-chevron-left"></span></a>
+    <a href="/" class="btn btn-default btn-sm btn-back"><i class="fa fa-arrow-left"></i></a>
     {{end}}
     <h1>{{.pageName}}</h1>
     {{template "Page/actions.html" .}}
@@ -12,11 +12,21 @@
 {{template "flash.html" .}}
 
 <div class="contents">
+    {{if gt .revision 0}}
     {{raw .html}}
+    {{else}}
+        <div class="page-not-found">
+            <h3>This page is not created.</h3>
+            <p><a href="/page/{{urlquery .pageName}}/modify" class="btn btn-info btn-lg">Create now</a></p>
+        </div>
+    {{end}}
 </div>
 
+{{if gt .revision 0}}
 <div class="page-revision">
+    <i class="fa fa-history"></i>
     Revision: #{{.revision}} {{date "2006-01-02 15:04:05" .page.UpdatedAt}}
 </div>
+{{end}}
 
 {{template "footer.html" .}}

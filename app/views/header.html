@@ -7,22 +7,22 @@
         <link rel="shortcut icon" type="image/png" href="/public/img/favicon.png">
         <meta name="viewport" content="width=device-width, minimum-scale=1, maximum-scale=1">
 
-        <!-- jQuery -->
-        <script src="//code.jquery.com/jquery-2.1.1.min.js" type="text/javascript" charset="utf-8"></script>
-
-        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css">
         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
-        <!-- Latest compiled and minified JavaScript -->
+
+        <script src="//code.jquery.com/jquery-2.1.1.min.js" type="text/javascript" charset="utf-8"></script>
         <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
 
-        <link rel="stylesheet" href="/public/css/common.css">
-
         {{range .moreStyles}}
-        <link rel="stylesheet" type="text/css" href="/public/{{.}}">
+        <link rel="stylesheet" type="text/css" href="{{.}}">
         {{end}}
         {{range .moreScripts}}
-        <script src="/public/{{.}}" type="text/javascript" charset="utf-8"></script>
+        <script src="{{.}}" type="text/javascript" charset="utf-8"></script>
         {{end}}
+
+        <link rel="stylesheet" href="/public/css/common.css">
+        <script src="/public/js/common.js"></script>
+
     </head>
     <body role="document">
         <div class="container" role="main">

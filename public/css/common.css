@@ -18,7 +18,8 @@ body {
     float: right;
 }
 
-.page-header .btn-actions .btn-info:first-child {
+.page-header .btn-actions .btn-info:first-child,
+.page-header .btn-actions .btn-primary:first-child {
     width: 95px;
 }
 
@@ -31,6 +32,10 @@ body {
     font-size: 14px;
     padding: 10px 0;
     margin: 20px 0 0 0;
+}
+
+.page-not-found {
+    margin: 0 0 30px 0;
 }
 
 .contents {
@@ -49,8 +54,30 @@ body {
     color: #888;
 }
 
+/*
+  Page.modify
+*/
+
+.CodeMirror {
+    height: 300px;
+}
+
+:-webkit-full-screen { height: 100%; }
+:-moz-full-screen { height: 100%; }
+:full-screen { height: 100%; }
+:fullscreen { height: 100%; }
+
+/*
+  Page.Diff
+*/
+
 tr.show-diff td {
     cursor: pointer;
+}
+
+tr.show-diff td .label {
+    padding: .2em .4em .2em;
+    margin: 0 0 0 4px;
 }
 
 .diff table {
@@ -80,16 +107,9 @@ tr.show-diff td {
     background-color: #e99;
 }
 
-.diff pre {
-    display: block;
-    padding: 0;
-    margin: 0;
-    font-size: 14px;
+.diff code.hljs {
+    font-family: monospace;
     line-height: 1.3;
-    color: #000;
-    word-break: break-all;
-    word-wrap: break-word;
-    background-color: inherit;
-    border: 0;
-    border-radius: 0;
+    background: none;
+    font-size: 14px;
 }

@@ -7,8 +7,9 @@ import (
     "html"
     "crypto/sha1"
     "fmt"
+    "bytes"
     "strings"
-    "github.com/aryann/difflib"
+    "github.com/pmezard/go-difflib/difflib"
     "github.com/revel/revel"
     "github.com/russross/blackfriday"
     "github.com/yujiod/wiki/app/models"
@@ -19,7 +20,8 @@ type Page struct {
 }
 
 func (c Page) Show() revel.Result {
-    var pageName string = c.Params.Get("pageName")
+    pageName := c.Params.Get("pageName")
+
     if pageName == "" {
         pageName = "Home"
     }
@@ -52,9 +54,7 @@ func (c Page) Show() revel.Result {
     return c.Render(pageName, body, html, page, revision)
 }
 
-func (c Page) Modify() revel.Result {
-    var pageName string = c.Params.Get("pageName")
-
+func (c Page) Modify(pageName string) revel.Result {
     body := ""
     page := models.Page{}
     c.db.Where("title = ?", pageName).First(&page)
@@ -65,18 +65,47 @@ func (c Page) Modify() revel.Result {
 
     hash := fmt.Sprintf("%x", sha1.Sum([]byte(body)))
 
-    return c.Render(pageName, body, hash)
+    return c.Render(pageName, body, hash, page)
 }
 
 func (c Page) Save(pageName string) revel.Result {
     page := models.Page{}
     c.db.Where("title = ?", pageName).First(&page)
 
+    body := c.Params.Get("page.Body")
+
+    if page.Id > 0 && page.Body == body {
+        return c.Redirect("/page/"+pageName)
+    }
+
     page.Title = pageName
-    page.Body = c.Params.Get("PageBody")
+    page.Body = body
     c.db.Save(&page)
 
+    previous := models.Revision{}
+    c.db.Where("page_id = ?", page.Id).Order("id desc").First(&previous)
+
+    unifiedDiff := difflib.UnifiedDiff{
+        A:        difflib.SplitLines(html.EscapeString(previous.Body)),
+        B:        difflib.SplitLines(html.EscapeString(page.Body)),
+        Context:  65535,
+    }
+    diffString, _ := difflib.GetUnifiedDiffString(unifiedDiff)
+    diffLines := difflib.SplitLines(diffString)
+
     revision := models.Revision{}
+
+    for i, line := range diffLines {
+        if i > 2 {
+            if strings.HasPrefix(line, "+") {
+                revision.AddedLines++;
+            }
+            if strings.HasPrefix(line, "-") {
+                revision.DeletedLines++;
+            }
+        }
+    }
+
     revision.Title = page.Title
     revision.Body = page.Body
     revision.PageId = page.Id
@@ -85,9 +114,7 @@ func (c Page) Save(pageName string) revel.Result {
     return c.Redirect("/page/"+pageName)
 }
 
-func (c Page) Revisions() revel.Result {
-    var pageName string = c.Params.Get("pageName")
-
+func (c Page) Revisions(pageName string) revel.Result {
     page := models.Page{}
     c.db.Where("title = ?", pageName).First(&page)
 
@@ -99,10 +126,7 @@ func (c Page) Revisions() revel.Result {
     return c.Render(pageName, revisions, revisionSize)
 }
 
-func (c Page) Diff() revel.Result {
-    var pageName string = c.Params.Get("pageName")
-    var revisionId string = c.Params.Get("revisionId")
-
+func (c Page) Diff(pageName string, revisionId string) revel.Result {
     page := models.Page{}
     c.db.Where("title = ?", pageName).First(&page)
 
@@ -112,10 +136,22 @@ func (c Page) Diff() revel.Result {
     previous := models.Revision{}
     c.db.Where("page_id = ? and id < ?", page.Id, revisionId).Order("id desc").First(&previous)
 
-    revisionBody := strings.Split(html.EscapeString(revision.Body), "\n")
-    previousBody := strings.Split(html.EscapeString(previous.Body), "\n")
+    unifiedDiff := difflib.UnifiedDiff{
+        A:        difflib.SplitLines(html.EscapeString(previous.Body)),
+        B:        difflib.SplitLines(html.EscapeString(revision.Body)),
+        Context:  65535,
+    }
+    diffString, _ := difflib.GetUnifiedDiffString(unifiedDiff)
+    diffLines := difflib.SplitLines(diffString)
+    buffer := bytes.Buffer{}
 
-    diff := difflib.HTMLDiff(previousBody, revisionBody)
+    for i, line := range diffLines {
+        if i > 2 {
+            buffer.WriteString(line)
+        }
+    }
+
+    diff := strings.TrimSpace(buffer.String())
 
     return c.Render(diff, revision, previous)
 }

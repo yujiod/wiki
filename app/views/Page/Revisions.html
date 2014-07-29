@@ -1,29 +1,44 @@
 {{set . "title" .pageName}}
+{{append . "moreScripts" "//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.0/highlight.min.js"}}
+{{append . "moreStyles" "//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.0/styles/github.min.css"}}
 {{template "header.html" .}}
 
 <div class="page-header clearfix">
-    <a href="/page/{{urlquery .pageName}}" class="btn btn-default btn-sm btn-back"><span class="glyphicon glyphicon-chevron-left"></span></a>
+    <a href="/page/{{urlquery .pageName}}" class="btn btn-default btn-sm btn-back"><i class="fa fa-arrow-left"></i></a>
     <h1>Revisions: {{.pageName}}</h1>
     {{template "Page/actions.html" .}}
 </div>
 
 {{template "flash.html" .}}
 
+{{if gt .revisionSize 0}}
 <div class="row">
     <div class="col-md-4">
         <table class="table table-hover table-revisions">
-            <tr>
-                <th>#</th>
-                <th>Modified</th>
-            </tr>
-            {{$revisionSize := .revisionSize}}
-            {{$pageName := .pageName}}
-            {{range $i, $revision := .revisions}}
-            <tr data-href="/page/{{urlquery $pageName}}/diff/{{.Id}}" class="show-diff">
-                <td>{{minus $revisionSize $i}}</td>
-                <td>{{date "2006-01-02 15:04:05" .CreatedAt}}</td>
-            </tr>
-            {{end}}
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Modified</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{$revisionSize := .revisionSize}}
+                {{$pageName := .pageName}}
+                {{range $i, $revision := .revisions}}
+                <tr data-href="/page/{{urlquery $pageName}}/diff/{{.Id}}" class="show-diff">
+                    <td>{{minus $revisionSize $i}}</td>
+                    <td>
+                        {{date "2006-01-02 15:04" .CreatedAt}}
+                        {{if gt .AddedLines 0}}
+                        <span class="label label-success">+{{.AddedLines}}</span>
+                        {{end}}
+                        {{if gt .DeletedLines 0}}
+                        <span class="label label-danger">-{{.DeletedLines}}</span>
+                        {{end}}
+                    </td>
+                </tr>
+                {{end}}
+            </tbody>
         </table>
     </div>
     <div class="col-md-8">
@@ -31,13 +46,27 @@
         </div>
     </div>
 </div>
+{{else}}
+<h3>This page does not have revisions.</h3>
+{{end}}
 
 <script>
 $(function () {
     $('.show-diff td').click(function () {
-        console.log($(this).parents('tr').attr('data-href'));
-        $('.diff').load($(this).parents('tr').attr('data-href'));
+        var tr = $(this).parents('tr');
+        console.log(tr);
+        $('.table-revisions .show-diff').removeClass('active');
+        tr.addClass('active');
+        $('.diff').load(
+            tr.attr('data-href'),
+            function () {
+                $('pre code').each(function(i, block) {
+                    hljs.highlightBlock(block);
+                });
+            }
+        );
     });
+    $('.show-diff:first-child td:first-child').click();
 });
 </script>
 
