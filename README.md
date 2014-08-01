@@ -9,14 +9,14 @@
 * Show and edit pages by everybody
 * Markdown editor
 * Bracket link
-    * ex) [[Some Page]]
+    * ex) Make link of "Some Page": [[Some Page]]
 * Revision and Diff
 
 ## Planned features
 
 * Attachment file on local disk, Google Cloud Storae and Amazon S3.
 * User authentication and permissions
-* Detect page collision
+* Detect editing page collision
 * and more...
 
 # Using on Dcoker
@@ -45,7 +45,7 @@ You need [Go](http://golang.org), install it before.
     go get github.com/revel/cmd/revel
     revel run github.com/yujiod/wiki
 
-## Build and install, run.
+## Build, install and run.
 
     # Installing to /usr/lcoal/wiki.
     revel build github.com/yujiod/wiki /usr/local/wiki
