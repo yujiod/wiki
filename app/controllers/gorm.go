@@ -1,53 +1,72 @@
 package controllers
 
 import (
-    _ "github.com/mattn/go-sqlite3"
-    "fmt"
-    "github.com/jinzhu/gorm"
-    "github.com/revel/revel"
-    "github.com/yujiod/wiki/app/models"
+	"fmt"
+	_ "github.com/go-sql-driver/mysql"
+	"github.com/jinzhu/gorm"
+	_ "github.com/lib/pq"
+	_ "github.com/mattn/go-sqlite3"
+	"github.com/revel/revel"
+	"github.com/yujiod/wiki/app/models"
+	"os"
 )
 
 type GormController struct {
-    *revel.Controller
-    db gorm.DB
+	*revel.Controller
+	db *gorm.DB
 }
 
 var (
-    DB gorm.DB
+	DB gorm.DB
 )
 
 // 自動マイグレーションを行う
 func InitDB() {
-    var err error
-    DB, err = gorm.Open("sqlite3", "./app.db")
+	var err error
 
-    if err != nil {
-        panic(fmt.Sprintf("Got error when connect database, the error is '%v'", err))
-    }
+	dbDriver := os.Getenv("DB_DRIVER")
+	if dbDriver == "" {
+		dbDriver = "sqlite3"
+	}
 
-    DB.LogMode(true)
+	dbSource := os.Getenv("DB_SOURCE")
+	if dbSource == "" {
+		dbSource = "./wiki.db"
+	}
 
-    DB.AutoMigrate(models.Page{})
-    DB.AutoMigrate(models.Revision{})
+	DB, err = gorm.Open(dbDriver, dbSource)
 
-    DB.Model(models.Page{}).AddUniqueIndex("unique_title", "title")
+	if err != nil {
+		panic(fmt.Sprintf("Got error when connect database, the error is '%v'", err))
+	}
+
+	DB.LogMode(true)
+
+	DB.AutoMigrate(models.Page{})
+	DB.AutoMigrate(models.Revision{})
+
+	DB.Model(models.Page{}).AddUniqueIndex("unique_title", "title")
 }
 
-// トランザクションを開始する
+// リクエスト時にトランザクションを開始する
 func (c *GormController) Begin() revel.Result {
-    c.db = DB
-    return nil
+	c.db = DB.Begin()
+	return nil
 }
 
-// トランザクションを確定する
+// リクエスト終了時にトランザクションを確定する
 func (c *GormController) Commit() revel.Result {
-    c.db = DB
-    return nil
+	if c.db != nil {
+		c.db.Commit()
+	}
+	c.db = nil
+	return nil
 }
 
-// トランザクションを破棄する
+// 異常時にトランザクションを破棄する
 func (c *GormController) Rollback() revel.Result {
-    c.db = DB
-    return nil
+	if c.db != nil {
+		c.db.Rollback()
+	}
+	return nil
 }
