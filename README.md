@@ -25,7 +25,7 @@ Default, sqlite3 in container disk.
 
     docker run -d -p 9000:9000 yujiod/wiki
     # same above
-    docker run -d -p 9000:9000 -d DB_DRIVER=sqlite3 -e DB_SOURCE="./wiki.db" yujiod/wiki
+    docker run -d -p 9000:9000 -e DB_DRIVER=sqlite3 -e DB_SOURCE="./wiki.db" yujiod/wiki
 
 Using MySQL
 
