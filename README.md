@@ -21,21 +21,25 @@
 
 # Using on Dcoker
 
-Default, sqlite3 in container disk.
+When you start container exposed port 9000, after open url http://localhost:9000/ from your browser.
+
+## Default, SQLite3 in container.
 
     docker run -d -p 9000:9000 yujiod/wiki
     # same above
     docker run -d -p 9000:9000 -e DB_DRIVER=sqlite3 -e DB_SOURCE="./wiki.db" yujiod/wiki
 
-Using MySQL
+## Using MySQL
 
-    docker run -d -p 9000:9000 -e DB_DRIVER=mysql -e DB_SOURCE="dbuser:dbpass@/dbname?charset=utf8" yujiod/wiki
+    docker run -d -p 9000:9000 -e DB_DRIVER=mysql -e DB_SOURCE="dbuser:dbpass@tcp(hostname:3306)/dbname?charset=utf8" yujiod/wiki
 
-Using PostgreSQL
+The Data Source Name, see [Go-MySQL-Driver](https://github.com/go-sql-driver/mysql).
 
-    docker run -d -p 9000:9000 -e DB_DRIVER=postgres -e DB_SOURCE="user=dbuser dbname=dbpass sslmode=disable" yujiod/wiki
+## Using PostgreSQL
 
-And open url http://localhost:9000/ from your browser.
+    docker run -d -p 9000:9000 -e DB_DRIVER=postgres -e DB_SOURCE="host=hostname user=dbuser dbname=dbpass sslmode=disable" yujiod/wiki
+
+The Connection String Parameters, see [pq](https://github.com/lib/pq).
 
 # Using from source
 
