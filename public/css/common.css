@@ -106,14 +106,89 @@ body {
   Page.modify
 */
 
-.CodeMirror {
+.btn-toolbar {
+    margin-top: -5px;
+    margin-left: 0px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #ddd;
+}
+.btn-toolbar .btn {
+    border: none;
+    margin-left: 0px;
+}
+
+.btn-toolbar .btn:focus {
+    outline: none;
+}
+
+.btn-toolbar .dropdown {
+    display: inline-block;
+}
+
+.btn-toolbar .btn-fullscreen {
+    float: right;
+}
+
+.nav-description span {
+    text-transform: uppercase;
+}
+
+.nav-description a {
+    float: right;
+    color: #aaa;
+    margin: 0 5px;
+}
+
+.nav-description .desc-markdown,
+.nav-description .desc-preview {
+    width: 50%;
+    float: left;
+    padding: 0 10px 5px 10px;
+    color: #aaa;
+}
+
+.nav-description .desc-preview {
+    border-left: 1px solid #ddd;
+}
+
+.editor {
     height: 300px;
 }
 
-:-webkit-full-screen { height: 100%; }
-:-moz-full-screen { height: 100%; }
-:full-screen { height: 100%; }
-:fullscreen { height: 100%; }
+.CodeMirror {
+    height: 100%;
+    width: 100%;
+    float: left;
+    padding: 10px;
+}
+
+#Preview {
+    height: 100%;
+    width: 100%;
+    float: left;
+    overflow-y: auto;
+    padding: 10px;
+    word-break: break-all;
+    word-wrap: break-word;
+    background-color: #fff;
+}
+
+@media (min-width: 992px) {
+    .CodeMirror {
+        width: 50%;
+        display: block !important;
+    }
+    #Preview {
+        width: 50%;
+        display: block !important;
+        border-left: 1px solid #ddd;
+    }
+}
+
+:-webkit-full-screen { width: 100%; height: 100%; }
+:-moz-full-screen { width: 100%; height: 100%; }
+:full-screen { width: 100%; height: 100%; }
+:fullscreen { width: 100%; height: 100%; }
 
 /*
   Page.Diff
