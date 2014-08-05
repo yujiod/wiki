@@ -2,7 +2,9 @@ package controllers
 
 import (
 	"github.com/revel/revel"
+	"net/url"
 	"reflect"
+	"strings"
 	"time"
 )
 
@@ -78,5 +80,11 @@ func init() {
 			return reflect.ValueOf(arg).Len() < length
 		}
 		return false
+	}
+	revel.TemplateFuncs["replace"] = func(s string, old string, new string) string {
+		return strings.Replace(s, old, new, -1)
+	}
+	revel.TemplateFuncs["rawurlencode"] = func(str string) string {
+		return strings.Replace(url.QueryEscape(str), "+", "%20", -1)
 	}
 }

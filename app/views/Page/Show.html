@@ -19,7 +19,7 @@
             {{else}}
                 <div class="page-not-found">
                     <h3>This page is not created.</h3>
-                    <p><a href="/page/{{urlquery .pageName}}/modify" class="btn btn-info btn-lg">Create now</a></p>
+                    <p><a href="/page/{{rawurlencode .pageName}}/modify" class="btn btn-info btn-lg">Create now</a></p>
                 </div>
             {{end}}
         </div>
@@ -33,7 +33,7 @@
             <ul>
                 {{range .recentCreatedPages}}
                 <li>
-                    <a href="/page/{{urlquery .Title}}">{{.Title}}</a><br>
+                    <a href="/page/{{rawurlencode .Title}}">{{.Title}}</a><br>
                     <span class="created"><i class="fa fa-clock-o"></i> {{date "2006-01-02 15:04:05" .CreatedAt}}</span>
                 </li>
                 {{end}}
@@ -47,7 +47,7 @@
             <ul>
                 {{range .recentUpdatedPages}}
                 <li>
-                    <a href="/page/{{urlquery .Title}}">{{.Title}}</a><br>
+                    <a href="/page/{{rawurlencode .Title}}">{{.Title}}</a><br>
                     <span class="created"><i class="fa fa-clock-o"></i> {{date "2006-01-02 15:04:05" .UpdatedAt}}</span>
                 </li>
                 {{end}}

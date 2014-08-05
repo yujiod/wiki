@@ -9,10 +9,10 @@
 
 {{set . "action" "modify"}}
 
-<form method="POST" action="/page/{{urlquery .pageName}}/modify">
+<form method="POST" action="/page/{{rawurlencode .pageName}}/modify">
 
     <div class="page-header clearfix">
-        <a href="/page/{{urlquery .pageName}}" class="btn btn-default btn-sm btn-back"><i class="fa fa-arrow-left"></i></a>
+        <a href="/page/{{rawurlencode .pageName}}" class="btn btn-default btn-sm btn-back"><i class="fa fa-arrow-left"></i></a>
         <h1>Editing: {{.pageName}}</h1>
         {{template "Page/actions.html" .}}
     </div>
