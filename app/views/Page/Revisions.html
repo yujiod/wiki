@@ -33,7 +33,9 @@
                         <span class="label label-success">+{{.AddedLines}}</span>
                         {{end}}
                         {{if gt .DeletedLines 0}}
+                        {{if gt (subtract $revisionSize $i) 1}}
                         <span class="label label-danger">-{{.DeletedLines}}</span>
+                        {{end}}
                         {{end}}
                     </td>
                 </tr>

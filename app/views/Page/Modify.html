@@ -50,8 +50,8 @@
     <div class="nav-description hidden-xs hidden-sm clearfix">
         <div class="desc-markdown">
             <span>Markdown</span>
-            <a href="#help" class="btn-help"><i class="fa fa-question-circle"></i></a>
-            <a href="#fullscreen" class="btn-fullscreen"><i class="fa fa-arrows-alt"></i></a>
+            <a href="#Help" class="btn-help" data-toggle="modal"><i class="fa fa-question-circle"></i></a>
+            <a href="#Fullscreen" class="btn-fullscreen"><i class="fa fa-arrows-alt"></i></a>
         </div>
         <div class="desc-preview">
             <span>Preview</span>
@@ -72,5 +72,69 @@
     {{end}}
 
 </form>
+
+
+<div class="modal fade" id="Help" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Markdown Help</h3>
+            </div>
+            <div class="modal-body">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Result</th>
+                            <th>Markdown</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Bold</strong> <em>Emphasize</em> <del>Strike</del></td>
+                            <td>**Bold** *Emphasize* ~~Strike~~</td>
+                        </tr>
+                        <tr>
+                            <td><a href="#">Wiki Page Link</a></td>
+                            <td>[[Page Name]]</td>
+                        </tr>
+                        <tr>
+                            <td><a href="#">Link</a></td>
+                            <td>[title](http://)</td>
+                        </tr>
+                        <tr>
+                            <td><ul><li>List</li></ul></td>
+                            <td>* List Item</td>
+                        </tr>
+                        <tr>
+                            <td><ol><li>Ordered List</li></ol></td>
+                            <td>1. Ordered List Item</td>
+                        </tr>
+                        <tr>
+                            <td><blockquote>Blockquote</blockquote></td>
+                            <td>&gt; Blockquote</td>
+                        </tr>
+                        <tr>
+                            <td>H1</td>
+                            <td># Heading</td>
+                        </tr>
+                        <tr>
+                            <td>H2</td>
+                            <td>## Heading</td>
+                        </tr>
+                        <tr>
+                            <td>H3</td>
+                            <td>### Heading</td>
+                        </tr>
+                        <tr>
+                            <td><code>Inline Code</code></td>
+                            <td>`code`</td>
+                        </tr>
+                    </tbody>
+                </table>
+                For further Markdown syntax reference: <a href="http://daringfireball.net/projects/markdown/syntax" target="_blank">Markdown Documentation</a>
+            </div>
+        </div>
+    </div>
+</div>
 
 {{template "footer.html" .}}

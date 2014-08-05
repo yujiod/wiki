@@ -10,7 +10,7 @@ $(function () {
     // live preview
     var preview = function () {
         var value = editor.getValue();
-        while (value.match(/(\[\[([^\]\[]+)\]\])/)) {
+        while (value.match(/(\[\[([^\]\[\/]+)\]\])/)) {
             value = value.replace(RegExp.$1, '<a href="/page/'+encodeURIComponent(RegExp.$2)+'">'+RegExp.$2+'</a>');
         }
         $('#Preview').html(marked(value));
@@ -26,11 +26,11 @@ $(function () {
     });
 
     // editor toolbox
-    $('.btn-toolbar .btn[data-toggle!="dropdown"], .nav-description .btn').click(function () {
+    /*
+    $('.btn-toolbar .btn[data-toggle!="dropdown"]').click(function () {
         $(this).blur();
         editor.focus();
     });
-    /*
     $('.btn-bold').click(function () {
         var str = editor.doc.getSelection();
         editor.doc.replaceSelection('**'+str+'**');

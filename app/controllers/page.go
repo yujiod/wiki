@@ -34,14 +34,16 @@ func (c Page) Show() revel.Result {
 	// ページIDが指定され、存在する場合はページ名のURLへリダイレクト
 	id, _ := strconv.Atoi(pageName)
 	if id != 0 && page.Id == id {
-		return c.Redirect("/page/" + page.Title)
+		encodedTitle := strings.Replace(url.QueryEscape(page.Title), "+", "%20", -1)
+		return c.Redirect("/page/" + encodedTitle)
 	}
 
 	// ブラケットリンクを置換する
-	re := regexp.MustCompile("\\[\\[([^\\]\\[]+)\\]\\]")
+	re := regexp.MustCompile("\\[\\[([^\\]\\[\\/]+)\\]\\]")
 	body := re.ReplaceAllStringFunc(page.Body, func(str string) string {
 		str = regexp.MustCompile("(^\\[\\[|\\]\\]$)").ReplaceAllString(str, "")
-		return "<a href=\"/page/" + url.QueryEscape(str) + "\">" + html.EscapeString(str) + "</a>"
+		encodedTitle := strings.Replace(url.QueryEscape(str), "+", "%20", -1)
+		return "<a href=\"/page/" + encodedTitle + "\">" + html.EscapeString(str) + "</a>"
 	})
 
 	// Markdownへ変換
@@ -93,7 +95,8 @@ func (c Page) Save(pageName string) revel.Result {
 
 	// ページは存在するが変更が一切ない場合には更新しない
 	if page.Id > 0 && page.Body == body {
-		return c.Redirect("/page/" + pageName)
+		encodedTitle := strings.Replace(url.QueryEscape(page.Title), "+", "%20", -1)
+		return c.Redirect("/page/" + encodedTitle)
 	}
 
 	// ページを保存する
@@ -133,7 +136,8 @@ func (c Page) Save(pageName string) revel.Result {
 	revision.PageId = page.Id
 	c.db.Save(&revision)
 
-	return c.Redirect("/page/" + pageName)
+	encodedTitle := strings.Replace(url.QueryEscape(pageName), "+", "%20", -1)
+	return c.Redirect("/page/" + encodedTitle)
 }
 
 // ページのリビジョン一覧を表示する
@@ -175,7 +179,13 @@ func (c Page) Diff(pageName string, revisionId string) revel.Result {
 	diffLines := difflib.SplitLines(diffString)
 
 	// unified diff のヘッダーを除去する
-	diff := strings.Join(diffLines[3:], "")
+	diffLines = diffLines[3:]
+
+	// 編集前の内容が空の場合は、最初の行は空行を削除する差分なので削除
+	if previous.Body == "" {
+		diffLines = diffLines[1:]
+	}
+	diff := strings.Join(diffLines, "")
 
 	return c.Render(diff, revision, previous)
 }
