@@ -2,7 +2,7 @@ package controllers
 
 import (
 	"github.com/revel/revel"
-	"net/url"
+	"github.com/yujiod/wiki/app/lib/wikihelper"
 	"reflect"
 	"strings"
 	"time"
@@ -84,7 +84,7 @@ func init() {
 	revel.TemplateFuncs["replace"] = func(s string, old string, new string) string {
 		return strings.Replace(s, old, new, -1)
 	}
-	revel.TemplateFuncs["rawurlencode"] = func(str string) string {
-		return strings.Replace(url.QueryEscape(str), "+", "%20", -1)
+	revel.TemplateFuncs["urlencode"] = func(str string) string {
+		return wikihelper.UrlEncode(str)
 	}
 }

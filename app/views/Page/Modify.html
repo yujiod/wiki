@@ -1,6 +1,8 @@
 {{set . "title" .pageName}}
 {{append . "moreScripts" "//cdnjs.cloudflare.com/ajax/libs/codemirror/4.4.0/codemirror.min.js"}}
 {{append . "moreScripts" "//cdnjs.cloudflare.com/ajax/libs/codemirror/4.4.0/mode/markdown/markdown.js"}}
+{{append . "moreScripts" "//cdnjs.cloudflare.com/ajax/libs/codemirror/4.4.0/addon/mode/overlay.js"}}
+{{append . "moreScripts" "//cdnjs.cloudflare.com/ajax/libs/codemirror/4.4.0/mode/gfm/gfm.js"}}
 {{append . "moreScripts" "//cdnjs.cloudflare.com/ajax/libs/marked/0.3.2/marked.min.js"}}
 {{append . "moreScripts" "/public/js/editor.js"}}
 {{append . "moreStyles" "//cdnjs.cloudflare.com/ajax/libs/codemirror/4.4.0/codemirror.min.css"}}
@@ -9,10 +11,10 @@
 
 {{set . "action" "modify"}}
 
-<form method="POST" action="/page/{{rawurlencode .pageName}}/modify">
+<form method="POST" action="/page/{{urlencode .pageName}}/modify">
 
     <div class="page-header clearfix">
-        <a href="/page/{{rawurlencode .pageName}}" class="btn btn-default btn-sm btn-back"><i class="fa fa-arrow-left"></i></a>
+        <a href="/page/{{urlencode .pageName}}" class="btn btn-default btn-sm btn-back"><i class="fa fa-arrow-left"></i></a>
         <h1>Editing: {{.pageName}}</h1>
         {{template "Page/actions.html" .}}
     </div>
@@ -66,7 +68,7 @@
     {{with $field := field "page.Body" .}}
         <div class="editor tab-content clearfix">
             <textarea id="Editor" name="{{$field.Name}}">{{$field.Value}}</textarea>
-            <div class="tab-pane" id="Preview"></div>
+            <div class="tab-pane contents" id="Preview"></div>
         </div>
         <span class="error">{{$field.Error}}</span>
     {{end}}
@@ -94,8 +96,8 @@
                             <td>**Bold** *Emphasize* ~~Strike~~</td>
                         </tr>
                         <tr>
-                            <td><a href="#">Wiki Page Link</a></td>
-                            <td>[[Page Name]]</td>
+                            <td><a href="#">Page Link</a></td>
+                            <td>[[Page Name]] [[Alias|page-name]]</td>
                         </tr>
                         <tr>
                             <td><a href="#">Link</a></td>

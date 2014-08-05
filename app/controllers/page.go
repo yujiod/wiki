@@ -5,11 +5,8 @@ import (
 	"fmt"
 	"github.com/pmezard/go-difflib/difflib"
 	"github.com/revel/revel"
-	"github.com/russross/blackfriday"
+	"github.com/yujiod/wiki/app/lib/wikihelper"
 	"github.com/yujiod/wiki/app/models"
-	"html"
-	"net/url"
-	"regexp"
 	"strconv"
 	"strings"
 )
@@ -34,20 +31,12 @@ func (c Page) Show() revel.Result {
 	// ページIDが指定され、存在する場合はページ名のURLへリダイレクト
 	id, _ := strconv.Atoi(pageName)
 	if id != 0 && page.Id == id {
-		encodedTitle := strings.Replace(url.QueryEscape(page.Title), "+", "%20", -1)
-		return c.Redirect("/page/" + encodedTitle)
+		return c.Redirect("/page/" + wikihelper.UrlEncode(page.Title))
 	}
 
-	// ブラケットリンクを置換する
-	re := regexp.MustCompile("\\[\\[([^\\]\\[\\/]+)\\]\\]")
-	body := re.ReplaceAllStringFunc(page.Body, func(str string) string {
-		str = regexp.MustCompile("(^\\[\\[|\\]\\]$)").ReplaceAllString(str, "")
-		encodedTitle := strings.Replace(url.QueryEscape(str), "+", "%20", -1)
-		return "<a href=\"/page/" + encodedTitle + "\">" + html.EscapeString(str) + "</a>"
-	})
-
-	// Markdownへ変換
-	html := string(blackfriday.MarkdownCommon([]byte(body)))
+	// Markdownをレンダリング
+	body := page.Body
+	html := wikihelper.Render(body)
 
 	// リビジョン番号を取得
 	revision := 0
@@ -95,8 +84,7 @@ func (c Page) Save(pageName string) revel.Result {
 
 	// ページは存在するが変更が一切ない場合には更新しない
 	if page.Id > 0 && page.Body == body {
-		encodedTitle := strings.Replace(url.QueryEscape(page.Title), "+", "%20", -1)
-		return c.Redirect("/page/" + encodedTitle)
+		return c.Redirect("/page/" + wikihelper.UrlEncode(page.Title))
 	}
 
 	// ページを保存する
@@ -136,8 +124,7 @@ func (c Page) Save(pageName string) revel.Result {
 	revision.PageId = page.Id
 	c.db.Save(&revision)
 
-	encodedTitle := strings.Replace(url.QueryEscape(pageName), "+", "%20", -1)
-	return c.Redirect("/page/" + encodedTitle)
+	return c.Redirect("/page/" + wikihelper.UrlEncode(pageName))
 }
 
 // ページのリビジョン一覧を表示する

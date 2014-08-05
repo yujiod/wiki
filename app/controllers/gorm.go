@@ -40,7 +40,7 @@ func InitDB() {
 		panic(fmt.Sprintf("Got error when connect database, the error is '%v'", err))
 	}
 
-	DB.LogMode(true)
+	DB.LogMode(revel.Config.BoolDefault("mode.dev", false))
 
 	DB.AutoMigrate(models.Page{})
 	DB.AutoMigrate(models.Revision{})

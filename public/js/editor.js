@@ -2,7 +2,7 @@ var editor = null;
 $(function () {
     // enable CodeMirror
     editor = CodeMirror.fromTextArea($('#Editor').get(0), {
-        mode: "markdown",
+        mode: "gfm",
         lineWrapping: true
     });
     $('.CodeMirror').attr('id', 'CodeMirror').addClass('tab-pane active');
@@ -10,10 +10,16 @@ $(function () {
     // live preview
     var preview = function () {
         var value = editor.getValue();
-        while (value.match(/(\[\[([^\]\[\/]+)\]\])/)) {
-            value = value.replace(RegExp.$1, '<a href="/page/'+encodeURIComponent(RegExp.$2)+'">'+RegExp.$2+'</a>');
+        while (value.match(/(\[\[([^\]\[\|]+)(\|([^\]\[]*))?\]\])/)) {
+            var bracketLink = RegExp.$1;
+            var title = RegExp.$2;
+            var alias = RegExp.$4;
+            if (alias === '') {
+                alias = title;
+            }
+            value = value.replace(bracketLink, '['+title+'](/page/'+encodeURIComponent(alias.replace(/\//g, '-'))+')');
         }
-        $('#Preview').html(marked(value));
+        $('#Preview').html(marked(value).replace(/<table>/g, '<table class="table table-bordered table-striped">'));
     };
     CodeMirror.on(editor, "change", preview);
     preview();

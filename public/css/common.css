@@ -81,6 +81,10 @@ a {
     margin: 0;
 }
 
+.contents table {
+    width: auto;
+}
+
 .sidebar hr {
     margin-top: 15px;
     border-top: 1px solid #ddd;
