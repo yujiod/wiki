@@ -60,7 +60,7 @@ $(function () {
         $('.table-revisions .show-diff').removeClass('active');
         tr.addClass('active');
         $('.diff').load(
-            tr.attr('data-href'),
+            tr.attr('data-href') + ' pre',
             function () {
                 $('pre code').each(function(i, block) {
                     hljs.highlightBlock(block);

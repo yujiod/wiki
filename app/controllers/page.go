@@ -110,8 +110,8 @@ func (c Page) Save(pageName string) revel.Result {
 
 	// 追加行、削除行を数えるため差分を取得
 	unifiedDiff := difflib.UnifiedDiff{
-		A:       difflib.SplitLines(html.EscapeString(previous.Body)),
-		B:       difflib.SplitLines(html.EscapeString(page.Body)),
+		A:       difflib.SplitLines(previous.Body),
+		B:       difflib.SplitLines(page.Body),
 		Context: 65535,
 	}
 	diffString, _ := difflib.GetUnifiedDiffString(unifiedDiff)
@@ -171,8 +171,8 @@ func (c Page) Diff(pageName string, revisionId string) revel.Result {
 
 	// 差分を生成
 	unifiedDiff := difflib.UnifiedDiff{
-		A:       difflib.SplitLines(html.EscapeString(previous.Body)),
-		B:       difflib.SplitLines(html.EscapeString(revision.Body)),
+		A:       difflib.SplitLines(previous.Body),
+		B:       difflib.SplitLines(revision.Body),
 		Context: 65535,
 	}
 	diffString, _ := difflib.GetUnifiedDiffString(unifiedDiff)
@@ -188,5 +188,5 @@ func (c Page) Diff(pageName string, revisionId string) revel.Result {
 	diff := strings.Join(diffLines, "")
 	diff = strings.TrimSpace(diff)
 
-	return c.Render(diff, revision, previous)
+	return c.Render(diff, revision, previous, pageName)
 }

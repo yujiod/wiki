@@ -1,1 +1,16 @@
+{{set . "title" .pageName}}
+{{template "header.html" .}}
+
+<div class="page-header clearfix">
+    {{if ne .pageName "Home"}}
+    <a href="/" class="btn btn-default btn-sm btn-back"><i class="fa fa-arrow-left"></i></a>
+    {{end}}
+    <h1>{{.pageName}}</h1>
+    {{template "Page/actions.html" .}}
+</div>
+
+{{template "flash.html" .}}
+
 <pre><code class="diff">{{.diff}}</code></pre>
+
+{{template "footer.html" .}}
