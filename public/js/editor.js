@@ -120,4 +120,6 @@ $(function () {
         }
         return false;
     });
+
+    editor.focus();
 });
