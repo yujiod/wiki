@@ -186,6 +186,7 @@ func (c Page) Diff(pageName string, revisionId string) revel.Result {
 		diffLines = diffLines[1:]
 	}
 	diff := strings.Join(diffLines, "")
+	diff = strings.TrimSpace(diff)
 
 	return c.Render(diff, revision, previous)
 }
