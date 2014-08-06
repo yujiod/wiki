@@ -1,0 +1,52 @@
+{{set . "title" "Page list"}}
+{{template "header.html" .}}
+
+<div class="page-header clearfix">
+    <a href="/" class="btn btn-default btn-sm btn-back"><i class="fa fa-arrow-left"></i></a>
+    <h1>Page list</h1>
+</div>
+
+{{template "flash.html" .}}
+
+<ul class="nav nav-tabs">
+    <li {{if eq .order "title"}}class="active"{{end}}><a href="/list">By alphabetical</a></li>
+    <li {{if eq .order "created_at"}}class="active"{{end}}><a href="/list/created_at">By created</a></li>
+    <li {{if eq .order "updated_at"}}class="active"{{end}}><a href="/list/updated_at">By modified</a></li>
+</ul>
+
+<div class="page-list">
+
+    <form class="form-inline search-form" role="form" method="GET">
+        <div class="form-group has-feedback">
+            <input type="search" class="form-control" placeholder="Search" name="query" value="{{.query}}">
+            <span class="fa fa-search form-control-feedback"></span>
+        </div>
+    </form>
+
+    <ul class="pages">
+        {{range .pages}}
+        <li>
+            <h4><a href="/page/{{urlencode .Title}}">{{.Title}}</a></h4>
+            <span class="created"><i class="fa fa-plus"></i> {{date "2006-01-02 15:04" .CreatedAt}}</span>
+            <span class="modified"><i class="fa fa-pencil"></i> {{date "2006-01-02 15:04" .UpdatedAt}}</span>
+        </li>
+        {{end}}
+    </ul>
+
+    {{if ne .paginateLast 1}}
+    <ul class="pagination">
+        {{$prev := subtract .paginateCurrent 1}}
+        <li {{if eq .paginateCurrent 1}}class="disabled"{{end}}><a href="/list/{{$.order}}?{{if ne $.query ""}}query={{.query}}&amp;{{end}}page={{$prev}}"><span>&laquo;</span></a></li>
+
+        {{range $i, $val := .paginatePages}}
+        {{$p := add $i 1}}
+        <li {{if eq $.paginateCurrent $p}}class="active"{{end}}><a href="/list/{{$.order}}?{{if ne $.query ""}}query={{$.query}}&amp;{{end}}page={{$p}}"><span>{{$p}}</a></span></a></li>
+        {{end}}
+
+        {{$next := add .paginateCurrent 1}}
+        <li {{if eq .paginateCurrent .paginateLast}}class="disabled"{{end}}><a href="/list/{{$.order}}?{{if ne $.query ""}}query={{.query}}&amp;{{end}}page={{$next}}"><span>&raquo;</span></a></li>
+    </ul>
+    {{end}}
+</div>
+
+{{template "footer.html" .}}

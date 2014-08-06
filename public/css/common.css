@@ -6,6 +6,11 @@ a {
     outline: none !important;
 }
 
+a .fa,
+button .fa {
+    margin-right: 7px;
+}
+
 /*
   Header
 */
@@ -19,6 +24,10 @@ a {
     margin-right: 15px;
     margin-top: 0.2em;
     color: #666;
+}
+
+.page-header .btn-back .fa {
+    margin-right: 0;
 }
 
 .page-header h1 {
@@ -85,38 +94,25 @@ a {
     width: auto;
 }
 
-.sidebar hr {
-    margin-top: 15px;
-    border-top: 1px solid #ddd;
-}
-
-.sidebar .sidebar-block {
-    margin-bottom: 30px;
-}
-
-.sidebar .sidebar-block:last-child {
-    margin-bottom: 0px;
-}
-
-.sidebar .sidebar-block h4 {
-    margin-top: 0;
-}
-
-.sidebar .sidebar-block ul {
+.sidebar .panel ul {
     padding: 0;
+    margin-bottom: 0;
 }
 
-.sidebar .sidebar-block li {
+.sidebar .panel li {
     list-style-type: none;
     margin-bottom: 5px;
 }
 
-.sidebar .sidebar-block .created,
-.sidebar .sidebar-block .updated {
+.sidebar .panel .created,
+.sidebar .panel .updated {
     color: #888;
     font-size: 12px;
 }
 
+.sidebar .panel:last-child {
+    margin-bottom: 5px;
+}
 
 /*
   Page.modify
@@ -263,4 +259,29 @@ tr.show-diff td .label {
     line-height: 1.3;
     background: none;
     font-size: 14px;
+}
+
+/*
+  List.Index
+*/
+
+.page-list .search-form {
+    margin-top: 20px;
+}
+
+.page-list ul.pages {
+    padding: 0;
+    margin: 20px 0;
+    list-style-type: none;
+}
+
+.page-list ul.pages li {
+    margin-bottom: 15px;
+}
+.page-list ul.pages li h4 {
+    margin-bottom: 5px;
+}
+
+.page-list .pagination {
+    margin: 0;
 }

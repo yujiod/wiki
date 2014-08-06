@@ -53,13 +53,6 @@ func (c Page) Show() revel.Result {
 	return c.Render(pageName, body, html, page, revision, recentCreatedPages, recentUpdatedPages)
 }
 
-// ページ一覧を表示する
-func (c Page) List() revel.Result {
-	pages := []models.Page{}
-	c.db.Find(&pages)
-	return c.Render(pages)
-}
-
 // ページを編集する
 func (c Page) Modify(pageName string) revel.Result {
 	// ページ名で検索

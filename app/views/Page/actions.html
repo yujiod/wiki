@@ -1,15 +1,15 @@
 <div class="btn-group btn-actions">
     {{if eq .action "modify"}}
-    <button class="btn btn-primary btn-save click-to-disabled"><i class="fa fa-check"></i> Save</button>
+    <button class="btn btn-primary btn-save click-to-disabled"><i class="fa fa-check"></i>Save</button>
     <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
     {{else}}
-    <a href="/page/{{urlencode .pageName}}/modify" class="btn btn-info"><i class="fa fa-pencil"></i> Edit</a>
+    <a href="/page/{{urlencode .pageName}}/modify" class="btn btn-info"><i class="fa fa-pencil"></i>Edit</a>
     <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown">
     {{end}}
     <span class="caret"></span>
     <span class="sr-only">Toggle Dropdown</span>
     </button>
     <ul class="dropdown-menu" role="menu">
-        <li><a href="/page/{{urlencode .pageName}}/revisions"><i class="fa fa-history"></i> Revision</a></li>
+        <li><a href="/page/{{urlencode .pageName}}/revisions"><i class="fa fa-history"></i>Revision</a></li>
     </ul>
 </div>
