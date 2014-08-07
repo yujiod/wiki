@@ -11,7 +11,7 @@ $(function () {
             if ($(this).attr('class').match(/highlight-([\w]+)/)) {
                 lang = RegExp.$1;
             }
-            $(this).find('pre').wrapInner('code').find('code').addClass(lang);
+            $(this).find('pre').wrapInner('<code></code>').find('code').addClass(lang);
         });
         $('.contents pre code[class*=lang-]').each(function () {
             if ($(this).attr('class').match(/lang-([\w]+)/)) {
