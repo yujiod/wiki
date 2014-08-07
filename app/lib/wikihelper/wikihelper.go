@@ -1,7 +1,7 @@
 package wikihelper
 
 import (
-	"github.com/russross/blackfriday"
+	"github.com/shurcooL/go/github_flavored_markdown"
 	"net/url"
 	"regexp"
 	"strings"
@@ -29,7 +29,7 @@ func Render(markdown string) string {
 	}
 
 	// Markdownへ変換
-	html := string(blackfriday.MarkdownCommon([]byte(body)))
+	html := string(github_flavored_markdown.Markdown([]byte(body)))
 	html = strings.Replace(html, "<table>", "<table class=\"table table-bordered table-striped\">", -1)
 	return html
 }

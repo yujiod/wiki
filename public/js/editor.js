@@ -20,6 +20,7 @@ $(function () {
             value = value.replace(bracketLink, '['+title+'](/page/'+encodeURIComponent(alias.replace(/\//g, '-'))+')');
         }
         $('#Preview').html(marked(value).replace(/<table>/g, '<table class="table table-bordered table-striped">'));
+        $('body').trigger('modified');
     };
     CodeMirror.on(editor, "change", preview);
     preview();

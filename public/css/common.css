@@ -11,6 +11,10 @@ button .fa {
     margin-right: 7px;
 }
 
+pre {
+    background: #f8f8f8;
+}
+
 /*
   Header
 */

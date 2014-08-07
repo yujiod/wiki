@@ -1,6 +1,4 @@
 {{set . "title" .pageName}}
-{{append . "moreScripts" "//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.0/highlight.min.js"}}
-{{append . "moreStyles" "//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.0/styles/github.min.css"}}
 {{template "header.html" .}}
 
 <div class="page-header clearfix">
@@ -62,9 +60,7 @@ $(function () {
         $('.diff').load(
             tr.attr('data-href') + ' .diff-content',
             function () {
-                $('pre code').each(function(i, block) {
-                    hljs.highlightBlock(block);
-                });
+                $('body').trigger('modified');
             }
         );
     });
