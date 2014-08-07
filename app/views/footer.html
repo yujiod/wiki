@@ -2,13 +2,12 @@
 
             {{if gt .footerPageRevision 0}}
             <div class="page-revision">
-                <i class="fa fa-history"></i>
-                Revision: #{{.footerPageRevision}} {{date "2006-01-02 15:04:05" .footerPageUpdatedAt}}
+                <a href="/page/{{urlencode .pageName}}/revisions"><i class="fa fa-history"></i>Revision: #{{.footerPageRevision}} {{date "2006-01-02 15:04:05" .footerPageUpdatedAt}}</a>
             </div>
             {{end}}
 
             <div class="poweredby">
-                Powered by Wiki
+                <a href="https://github.com/yujiod/wiki" target="_blank">Powered by Wiki</a>
             </div>
         </div>
     </div>

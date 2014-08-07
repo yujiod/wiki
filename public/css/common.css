@@ -78,6 +78,10 @@ pre {
   Page.show
 */
 
+article {
+    min-width: 300px;
+}
+
 .page-not-found {
     margin: 0 0 30px 0;
 }
