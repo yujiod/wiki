@@ -35,7 +35,7 @@ pre {
 }
 
 .page-header h1 {
-    float: left;
+    display: inline-block;
     margin-top: 0;
     font-size: 30px;
 }
@@ -116,6 +116,74 @@ pre {
 
 .sidebar .panel:last-child {
     margin-bottom: 5px;
+}
+
+.contents h1,
+.contents h2,
+.contents h3,
+.contents h4,
+.contents h5,
+.contents h6 {
+    position:relative;
+}
+
+.contents .anchor {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    display: block;
+    padding-right: 6px;
+    padding-left: 30px;
+    margin-left: -30px;
+}
+
+h1:hover .anchor,
+h2:hover .anchor,
+h3:hover .anchor,
+h4:hover .anchor,
+h5:hover .anchor,
+h6:hover .anchor {
+    height: 1em;
+    padding-left: 8px;
+    margin-left: -30px;
+    line-height: 1;
+    text-decoration: none;
+}
+
+h1 .anchor span.octicon-link,
+h2 .anchor span.octicon-link,
+h3 .anchor span.octicon-link,
+h4 .anchor span.octicon-link,
+h5 .anchor span.octicon-link,
+h6 .anchor span.octicon-link {
+    display: none;
+    color: #000;
+    vertical-align: middle;
+}
+
+h1:hover .anchor span.octicon-link,
+h2:hover .anchor span.octicon-link,
+h3:hover .anchor span.octicon-link,
+h4:hover .anchor span.octicon-link,
+h5:hover .anchor span.octicon-link,
+h6:hover .anchor span.octicon-link {
+    display: inline-block;
+}
+
+.octicon {
+    display: inline-block;
+    font-family: FontAwesome;
+    font-size: 17px;
+    font-style: normal;
+    font-weight: normal;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.octicon-link:before {
+    content: "\f0c1";
 }
 
 /*
