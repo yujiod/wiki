@@ -168,5 +168,8 @@ func (c Page) Diff(pageName string, revisionId string) revel.Result {
 	diff := strings.Join(diffLines, "")
 	diff = strings.TrimSpace(diff)
 
-	return c.Render(diff, revision, previous, pageName)
+	// Markdownをレンダリング
+	html := wikihelper.Render(revision.Body)
+
+	return c.Render(diff, revision, previous, pageName, html)
 }

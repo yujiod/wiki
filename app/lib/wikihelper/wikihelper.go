@@ -1,7 +1,6 @@
 package wikihelper
 
 import (
-	"github.com/revel/revel"
 	"github.com/russross/blackfriday"
 	"net/url"
 	"regexp"
@@ -20,7 +19,6 @@ func Render(markdown string) string {
 	body := markdown
 	re := regexp.MustCompile("\\[\\[([^\\]\\[\\|]+)(\\|([^\\]\\[]+))?\\]\\]")
 	for _, match := range re.FindAllStringSubmatch(body, -1) {
-		revel.INFO.Printf("%q", match)
 		bracketLink := match[0]
 		title := match[1]
 		alias := match[3]

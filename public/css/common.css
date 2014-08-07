@@ -167,14 +167,14 @@ button .fa {
     height: 300px;
 }
 
-.CodeMirror {
+.editor .CodeMirror {
     height: 100%;
     width: 100%;
     float: left;
     padding: 10px;
 }
 
-#Preview {
+.editor #Preview {
     height: 100%;
     width: 100%;
     float: left;
@@ -186,11 +186,11 @@ button .fa {
 }
 
 @media (min-width: 992px) {
-    .CodeMirror {
+    .editor .CodeMirror {
         width: 50%;
         display: block !important;
     }
-    #Preview {
+    .editor #Preview {
         width: 50%;
         display: block !important;
         border-left: 1px solid #ddd;
@@ -225,6 +225,10 @@ tr.show-diff td {
 tr.show-diff td .label {
     padding: .2em .4em .2em;
     margin: 0 0 0 4px;
+}
+
+.diff-content .nav-tabs {
+    margin-bottom: 15px;
 }
 
 .diff table {

@@ -11,6 +11,22 @@
 
 {{template "flash.html" .}}
 
-<pre><code class="diff">{{.diff}}</code></pre>
+<div class="diff-content">
+
+    <ul class="nav nav-tabs" role="tablist">
+        <li class="active"><a href="#Diff" role="tab" data-toggle="tab">Diff</a></li>
+        <li><a href="#Preview" role="tab" data-toggle="tab">Preview</a></li>
+    </ul>
+
+    <div class="tab-content">
+        <div class="tab-pane active" id="Diff">
+            <pre><code class="diff">{{.diff}}</code></pre>
+        </div>
+        <div class="tab-pane contents" id="Preview">
+            {{raw .html}}
+        </div>
+    </div>
+
+</div>
 
 {{template "footer.html" .}}
