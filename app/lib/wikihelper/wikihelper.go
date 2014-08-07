@@ -7,11 +7,11 @@ import (
 	"strings"
 )
 
-func UrlEncode(title string) string {
-	encodedTitle := strings.Replace(title, "/", "-", -1)
-	encodedTitle = url.QueryEscape(encodedTitle)
-	encodedTitle = strings.Replace(encodedTitle, "+", "%20", -1)
-	return encodedTitle
+func UrlEncode(str string) (encoded string) {
+	encoded = strings.Replace(str, "/", "-", -1)
+	encoded = url.QueryEscape(encoded)
+	encoded = strings.Replace(encoded, "+", "%20", -1)
+	return encoded
 }
 
 func Render(markdown string) string {
@@ -25,7 +25,7 @@ func Render(markdown string) string {
 		if alias == "" {
 			alias = title
 		}
-		body = strings.Replace(body, bracketLink, "["+title+"](/page/"+UrlEncode(alias)+")", -1)
+		body = strings.Replace(body, bracketLink, "<a href=\"/page/"+UrlEncode(alias)+"\">"+title+"</a>", -1)
 	}
 
 	// Markdownへ変換

@@ -17,7 +17,7 @@ $(function () {
             if (alias === '') {
                 alias = title;
             }
-            value = value.replace(bracketLink, '['+title+'](/page/'+encodeURIComponent(alias.replace(/\//g, '-'))+')');
+            value = value.replace(bracketLink, '<a href="/page/'+encodeURIComponent(alias.replace(/\//g, '-'))+'">'+title+'</a>');
         }
         $('#Preview').html(marked(value).replace(/<table>/g, '<table class="table table-bordered table-striped">'));
         $('body').trigger('modified');
