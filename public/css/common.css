@@ -25,7 +25,7 @@ pre {
 }
 .page-header .btn-back {
     float: left;
-    margin-right: 15px;
+    margin-right: 12px;
     margin-top: 0.2em;
     color: #666;
 }
@@ -38,6 +38,7 @@ pre {
     display: inline-block;
     margin-top: 0;
     font-size: 30px;
+    line-height: 35px;
 }
 
 .page-header .btn-actions {
