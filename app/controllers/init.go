@@ -3,12 +3,28 @@ package controllers
 import (
 	"github.com/revel/revel"
 	"github.com/yujiod/wiki/app/lib/wikihelper"
+	"github.com/yvasiyarov/go-metrics"
+	"github.com/yvasiyarov/gorelic"
+	"log"
+	"os"
 	"reflect"
 	"strings"
 	"time"
 )
 
+var (
+	// NewRelic agent
+	agent *gorelic.Agent
+)
+
 func init() {
+	// init for NewRelic
+	initGorelic()
+
+	revel.Filters = []revel.Filter{
+		gorelicFilter,
+	}
+
 	// 自動マイグレーション向けにサーバー起動時にInitDBを呼び出す
 	revel.OnAppStart(InitDB)
 
@@ -87,4 +103,39 @@ func init() {
 	revel.TemplateFuncs["urlencode"] = func(str string) string {
 		return wikihelper.UrlEncode(str)
 	}
+}
+
+// initGorelic Initializes the Gorelic agent
+func initGorelic() {
+
+	// Load NEWRELIC_LICENSE from a environment.
+	// Only start gorelic if a license id resent.
+	NEWRELIC_LICENSE := os.Getenv("NEWRELIC_LICENSE")
+	if len(NEWRELIC_LICENSE) > 0 {
+		log.Print("Starting newrelic daemon.")
+		agent = gorelic.NewAgent()
+		agent.NewrelicLicense = NEWRELIC_LICENSE
+		agent.NewrelicName = "Wiki"
+		agent.NewrelicPollInterval = 180
+		agent.Verbose = true
+
+		// "Manually" init the http timer (will be used in gorelicFilter)
+		agent.CollectHTTPStat = true
+		agent.HTTPTimer = metrics.NewTimer()
+
+		agent.Run()
+	} else {
+		log.Print("!! Newrelic license missing from config file -> Not started")
+	}
+}
+
+// Filter to capture HTTP metrics for gorelic
+var gorelicFilter = func(c *revel.Controller, fc []revel.Filter) {
+	startTime := time.Now()
+	defer func() {
+		if agent != nil {
+			agent.HTTPTimer.UpdateSince(startTime)
+		}
+	}()
+	fc[0](c, fc[1:])
 }
