@@ -132,6 +132,15 @@ article {
     position:relative;
 }
 
+.contents h1:first-child,
+.contents h2:first-child,
+.contents h3:first-child,
+.contents h4:first-child,
+.contents h5:first-child,
+.contents h6:first-child {
+    margin-top: 0;
+}
+
 .contents .anchor {
     position: absolute;
     top: 0;
