@@ -1,4 +1,4 @@
-FROM google/golang:1.3
+FROM google/golang:stable
 
 MAINTAINER Yuji ODA
 
