@@ -27,27 +27,33 @@ func InitDB() {
 
 	dbDriver := os.Getenv("DB_DRIVER")
 	dbSource := os.Getenv("DB_SOURCE")
+	databaseUrl := ""
 
 	if dbDriver == "" || dbSource == "" {
-		// Heroku ClearDB MySQL Database
-		if os.Getenv("CLEARDB_DATABASE_URL") != "" {
-			re, _ := regexp.Compile("mysql://([^:]+):([^@]+)@([^/]+)/([^?]+)")
-			match := re.FindSubmatch([]byte(os.Getenv("CLEARDB_DATABASE_URL")))
-
-			dbDriver = "mysql"
-			dbSource = fmt.Sprintf(
-				"%s:%s@tcp(%s:3306)/%s?parseTime=true",
-				match[1],
-				match[2],
-				match[3],
-				match[4],
-			)
+		if os.Getenv("DATABASE_URL") != "" {
+			// Heroku Postgres
+			databaseUrl = os.Getenv("DATABASE_URL")
+		} else if os.Getenv("CLEARDB_DATABASE_URL") != "" {
+			// Heroku ClearDB MySQL Database
+			databaseUrl = os.Getenv("CLEARDB_DATABASE_URL")
 		}
 
-		// Heroku Postgre
-		if os.Getenv("HEROKU_POSTGRESQL_NAVY_URL") != "" {
-			dbDriver = "postgres"
-			dbSource = os.Getenv("HEROKU_POSTGRESQL_NAVY_URL")
+		if databaseUrl != "" {
+			re, _ := regexp.Compile("([^:])://([^:]+):([^@]+)@([^/]+)/([^?]+)")
+			match := re.FindSubmatch([]byte(databaseUrl))
+
+			dbDriver = match[1]
+			if dbDriver == "mysql" {
+				dbSource = fmt.Sprintf(
+					"%s:%s@tcp(%s:3306)/%s?parseTime=true",
+					match[2],
+					match[3],
+					match[4],
+					match[5],
+				)
+			} else {
+				dbSource = match[1]
+			}
 		}
 	}
 
