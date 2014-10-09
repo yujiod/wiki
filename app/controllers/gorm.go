@@ -40,7 +40,7 @@ func InitDB() {
 
 		if databaseUrl != "" {
 			re, _ := regexp.Compile("([^:])://([^:]+):([^@]+)@([^/]+)/([^?]+)")
-			match := re.FindSubmatch([]byte(databaseUrl))
+			match := re.FindStringSubmatch([]byte(databaseUrl))
 
 			dbDriver = match[1]
 			if dbDriver == "mysql" {
