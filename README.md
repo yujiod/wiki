@@ -4,6 +4,8 @@
 * [Revel](http://revel.github.io/) A high-productivity web framework for the Go language.
 * [GORM](https://github.com/jinzhu/gorm/) The fantastic ORM library for Golang, aims to be developer friendly.
 
+[![Deploy to Heroku](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy)
+
 ## Features
 
 * Show and edit pages by everybody
