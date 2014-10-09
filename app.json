@@ -1,0 +1,15 @@
+{
+  "name": "Wiki",
+  "description": "A smart wiki software by Go language.",
+  "keywords": [
+    "golang",
+    "wiki",
+    "markdown"
+  ],
+  "website": "https://github.com/yujiod/wiki",
+  "repository": "https://github.com/yujiod/wiki",
+  "success_url": "/",
+  "env": {
+    "BUILDPACK_URL": "https://github.com/revel/heroku-buildpack-go-revel.git"
+  }
+}
