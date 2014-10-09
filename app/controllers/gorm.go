@@ -9,7 +9,7 @@ import (
 	"github.com/revel/revel"
 	"github.com/yujiod/wiki/app/models"
 	"os"
-    "regexp"
+	"regexp"
 )
 
 type GormController struct {
@@ -25,31 +25,31 @@ var (
 func InitDB() {
 	var err error
 
-    dbDriver := os.Getenv("DB_DRIVER")
-    dbSource := os.Getenv("DB_SOURCE")
+	dbDriver := os.Getenv("DB_DRIVER")
+	dbSource := os.Getenv("DB_SOURCE")
 
-    if dbDriver == "" || dbSource == "" {
-        // Heroku ClearDB MySQL Database
-        if os.Getenv("CLEARDB_DATABASE_URL") != "" {
-            re, _ := regexp.Compile("mysql://([^:]+):([^@]+)@([^/]+)/([^?]+)")
-            match := re.FindSubmatch([]byte(os.Getenv("CLEARDB_DATABASE_URL")))
+	if dbDriver == "" || dbSource == "" {
+		// Heroku ClearDB MySQL Database
+		if os.Getenv("CLEARDB_DATABASE_URL") != "" {
+			re, _ := regexp.Compile("mysql://([^:]+):([^@]+)@([^/]+)/([^?]+)")
+			match := re.FindSubmatch([]byte(os.Getenv("CLEARDB_DATABASE_URL")))
 
-            dbDriver = "mysql"
-            dbSource = fmt.Sprintf(
-                "%s:%s@tcp(%s:3306)/%s?parseTime=true",
-                match[1],
-                match[2],
-                match[3],
-                match[4]
-            )
-        }
+			dbDriver = "mysql"
+			dbSource = fmt.Sprintf(
+				"%s:%s@tcp(%s:3306)/%s?parseTime=true",
+				match[1],
+				match[2],
+				match[3],
+				match[4],
+			)
+		}
 
-        // Heroku Postgre
-        if os.Getenv("HEROKU_POSTGRESQL_NAVY_URL") != "" {
-            dbDriver = "postgres"
-            dbSource = os.Getenv("HEROKU_POSTGRESQL_NAVY_URL")
-        }
-    }
+		// Heroku Postgre
+		if os.Getenv("HEROKU_POSTGRESQL_NAVY_URL") != "" {
+			dbDriver = "postgres"
+			dbSource = os.Getenv("HEROKU_POSTGRESQL_NAVY_URL")
+		}
+	}
 
 	if dbDriver == "" {
 		dbDriver = "sqlite3"
