@@ -39,7 +39,7 @@ func InitDB() {
 		}
 
 		if databaseUrl != "" {
-			re, _ := regexp.Compile("([^:])://([^:]+):([^@]+)@([^/]+)/([^?]+)")
+			re, _ := regexp.Compile("([^:]+)://([^:]+):([^@]+)@([^/]+)/([^?]+)")
 			match := re.FindStringSubmatch(databaseUrl)
 
 			dbDriver = match[1]
@@ -52,7 +52,7 @@ func InitDB() {
 					match[5],
 				)
 			} else {
-				dbSource = match[1]
+				dbSource = databaseUrl
 			}
 		}
 	}
