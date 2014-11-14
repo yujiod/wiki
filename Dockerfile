@@ -1,8 +1,8 @@
-FROM google/golang:stable
+FROM golang:latest
 
 MAINTAINER Yuji ODA
 
-ADD . /gopath/src/github.com/yujiod/wiki
+ADD . $GOPATH/src/github.com/yujiod/wiki
 
 RUN go get github.com/revel/cmd/revel
 RUN revel build github.com/yujiod/wiki /usr/local/wiki
