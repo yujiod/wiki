@@ -73,8 +73,7 @@ func InitDB() {
 
 	DB.LogMode(revel.Config.BoolDefault("mode.dev", false))
 
-	DB.AutoMigrate(models.Page{})
-	DB.AutoMigrate(models.Revision{})
+	DB.AutoMigrate(&models.Page{}, &models.Revision{})
 
 	DB.Model(models.Page{}).AddUniqueIndex("unique_title", "title")
 }
