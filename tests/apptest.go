@@ -7,7 +7,7 @@ type AppTest struct {
 }
 
 func (t *AppTest) Before() {
-	intln("Set up")
+	println("Set up")
 }
 
 func (t *AppTest) TestThatIndexPageWorks() {
