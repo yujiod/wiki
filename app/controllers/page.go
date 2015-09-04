@@ -94,7 +94,7 @@ func (c Page) Save(pageName string) revel.Result {
 	token := c.Params.Get("page.Token")
 	if token != c.Session["token"] {
 		c.SetAction("Page", "Modify")
-		return c.Modify(pageName);
+		return c.Modify(pageName)
 	}
 
 	// ページを保存する
