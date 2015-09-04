@@ -20,10 +20,7 @@ var (
 func init() {
 	// init for NewRelic
 	initGorelic()
-
-	revel.Filters = []revel.Filter{
-		gorelicFilter,
-	}
+    revel.Filters = append(revel.Filters, gorelicFilter)
 
 	// 自動マイグレーション向けにサーバー起動時にInitDBを呼び出す
 	revel.OnAppStart(InitDB)
