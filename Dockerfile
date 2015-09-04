@@ -1,4 +1,4 @@
-FROM golang:1.4
+FROM golang:1.5
 
 MAINTAINER Yuji ODA
 
