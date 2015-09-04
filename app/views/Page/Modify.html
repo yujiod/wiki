@@ -22,6 +22,7 @@
 {{template "flash.html" .}}
 
     <input type="hidden" name="page.Hash" value="{{.hash}}">
+    <input type="hidden" name="page.Token" value="{{.token}}">
 
     <div class="nav-description hidden-xs hidden-sm clearfix">
         <div class="desc-markdown">
@@ -48,7 +49,6 @@
     {{end}}
 
 </form>
-
 
 <div class="modal fade" id="Help" tabindex="-1" role="dialog">
     <div class="modal-dialog">

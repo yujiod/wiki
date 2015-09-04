@@ -9,6 +9,7 @@ import (
 	"github.com/yujiod/wiki/app/models"
 	"strconv"
 	"strings"
+	"time"
 )
 
 type Page struct {
@@ -58,12 +59,21 @@ func (c Page) Modify(pageName string) revel.Result {
 	// ページ名で検索
 	page := models.Page{}
 	c.db.Where("title = ?", pageName).First(&page)
-	body := page.Body
 
 	// 衝突検知のためのハッシュを生成
-	hash := fmt.Sprintf("%x", sha1.Sum([]byte(body)))
+	hash := fmt.Sprintf("%x", sha1.Sum([]byte(page.Body)))
 
-	return c.Render(pageName, body, hash, page)
+	// Bodyを引き継ぐ
+	if c.Params.Get("page.Body") != "" {
+		page.Body = c.Params.Get("page.Body")
+	}
+
+	// CSRF
+	nanoTime := time.Now().UnixNano()
+	token := fmt.Sprintf("%x", sha1.Sum([]byte(strconv.FormatInt(nanoTime, 10))))
+	c.Session["token"] = token
+
+	return c.Render(pageName, hash, page, token)
 }
 
 // ページの登録もしくは更新を行う
@@ -78,6 +88,13 @@ func (c Page) Save(pageName string) revel.Result {
 	// ページは存在するが変更が一切ない場合には更新しない
 	if page.Id > 0 && page.Body == body {
 		return c.Redirect("/page/" + wikihelper.UrlEncode(page.Title))
+	}
+
+	// CSRF
+	token := c.Params.Get("page.Token")
+	if token != c.Session["token"] {
+		c.SetAction("Page", "Modify")
+		return c.Modify(pageName);
 	}
 
 	// ページを保存する
