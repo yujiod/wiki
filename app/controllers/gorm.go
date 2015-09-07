@@ -25,8 +25,8 @@ var (
 func InitDB() {
 	var err error
 
-	dbDriver := os.Getenv("DB_DRIVER")
-	dbSource := os.Getenv("DB_SOURCE")
+	dbDriver := revel.Config.StringDefault("database.driver", "")
+	dbSource := revel.Config.StringDefault("database.source", "")
 	databaseUrl := ""
 
 	if dbDriver == "" || dbSource == "" {

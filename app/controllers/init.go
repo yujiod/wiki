@@ -6,7 +6,6 @@ import (
 	"github.com/yvasiyarov/go-metrics"
 	"github.com/yvasiyarov/gorelic"
 	"log"
-	"os"
 	"reflect"
 	"strings"
 	"time"
@@ -18,9 +17,9 @@ var (
 )
 
 func init() {
-	// init for NewRelic
-	initGorelic()
-    revel.Filters = append(revel.Filters, gorelicFilter)
+	// NewRelic
+	revel.OnAppStart(initGorelic)
+	revel.Filters = append(revel.Filters, gorelicFilter)
 
 	// 自動マイグレーション向けにサーバー起動時にInitDBを呼び出す
 	revel.OnAppStart(InitDB)
@@ -105,13 +104,13 @@ func init() {
 // initGorelic Initializes the Gorelic agent
 func initGorelic() {
 
-	// Load NEWRELIC_LICENSE from a environment.
+	// Load newrelic.license from app configuration file.
 	// Only start gorelic if a license id resent.
-	NEWRELIC_LICENSE := os.Getenv("NEWRELIC_LICENSE")
-	if len(NEWRELIC_LICENSE) > 0 {
+	newrelicLicense := revel.Config.StringDefault("newrelic.license", "")
+	if len(newrelicLicense) > 0 {
 		log.Print("Starting newrelic daemon.")
 		agent = gorelic.NewAgent()
-		agent.NewrelicLicense = NEWRELIC_LICENSE
+		agent.NewrelicLicense = newrelicLicense
 		agent.NewrelicName = "Wiki"
 		agent.NewrelicPollInterval = 180
 		agent.Verbose = true
