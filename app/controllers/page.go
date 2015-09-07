@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"github.com/pmezard/go-difflib/difflib"
 	"github.com/revel/revel"
+	"github.com/yujiod/wiki/app/lib/akismet"
+	"github.com/yujiod/wiki/app/lib/recaptcha"
 	"github.com/yujiod/wiki/app/lib/wikihelper"
 	"github.com/yujiod/wiki/app/models"
 	"strconv"
@@ -14,6 +16,7 @@ import (
 
 type Page struct {
 	App
+	NeedRecaptcha bool
 }
 
 // ページを表示する
@@ -73,7 +76,13 @@ func (c Page) Modify(pageName string) revel.Result {
 	token := fmt.Sprintf("%x", sha1.Sum([]byte(strconv.FormatInt(nanoTime, 10))))
 	c.Session["token"] = token
 
-	return c.Render(pageName, hash, page, token)
+	// Recaptcha
+	recaptchaSiteKey := ""
+	if recaptcha.IsEnabled() && (c.NeedRecaptcha || recaptcha.IsAlways()) {
+		recaptchaSiteKey, _ = recaptcha.GetKey()
+	}
+
+	return c.Render(pageName, hash, page, token, recaptchaSiteKey)
 }
 
 // ページの登録もしくは更新を行う
@@ -93,8 +102,32 @@ func (c Page) Save(pageName string) revel.Result {
 	// CSRF
 	token := c.Params.Get("page.Token")
 	if token != c.Session["token"] {
+		revel.INFO.Println("DETECTED CSRF.")
 		c.SetAction("Page", "Modify")
 		return c.Modify(pageName)
+	}
+
+	// reCAPTCHA
+	if recaptcha.IsAlways() && !recaptcha.Validate(c.Controller) {
+		revel.INFO.Println("DETECTED INVALID CAPTCHA.")
+		c.SetAction("Page", "Modify")
+		return c.Modify(pageName)
+	}
+
+	// Akismet
+	if !akismet.Validate(c.Controller, body) {
+		revel.INFO.Println("DETECTED SPAM.")
+		c.NeedRecaptcha = true
+		if recaptcha.IsEnabled() {
+			if !recaptcha.IsAlways() && !recaptcha.Validate(c.Controller) {
+				revel.INFO.Println("DETECTED INVALID CAPTCHA.")
+				c.SetAction("Page", "Modify")
+				return c.Modify(pageName)
+			}
+		} else {
+			c.SetAction("Page", "Modify")
+			return c.Modify(pageName)
+		}
 	}
 
 	// ページを保存する

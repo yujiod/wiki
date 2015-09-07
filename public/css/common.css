@@ -43,6 +43,7 @@ pre {
 
 .page-header .btn-actions {
     float: right;
+    margin-left: 10px;
 }
 
 .page-header .btn-actions .btn-info:first-child,
@@ -52,6 +53,10 @@ pre {
 
 .page-header .btn-actions .dropdown-menu {
     min-width: 0;
+}
+
+.g-recaptcha {
+    float: right;
 }
 
 /*

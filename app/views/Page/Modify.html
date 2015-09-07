@@ -5,6 +5,7 @@
 {{append . "moreScripts" "//cdnjs.cloudflare.com/ajax/libs/codemirror/4.4.0/mode/gfm/gfm.js"}}
 {{append . "moreScripts" "//cdnjs.cloudflare.com/ajax/libs/marked/0.3.2/marked.min.js"}}
 {{append . "moreScripts" "/public/js/editor.js"}}
+{{append . "moreScripts" "//www.google.com/recaptcha/api.js"}}
 {{append . "moreStyles" "//cdnjs.cloudflare.com/ajax/libs/codemirror/4.4.0/codemirror.min.css"}}
 
 {{template "header.html" .}}
@@ -17,6 +18,9 @@
         <a href="/page/{{urlencode .pageName}}" class="btn btn-default btn-sm btn-back"><i class="fa fa-arrow-left"></i></a>
         <h1>Editing: {{.pageName}}</h1>
         {{template "Page/actions.html" .}}
+        {{if ne .recaptchaSiteKey ""}}
+        <div class="g-recaptcha" data-sitekey="{{.recaptchaSiteKey}}" data-callback="recaptchaCallback"></div>
+        {{end}}
     </div>
 
 {{template "flash.html" .}}
@@ -112,5 +116,14 @@
         </div>
     </div>
 </div>
+
+{{if ne .recaptchaSiteKey ""}}
+<script>
+$('.btn-save').addClass('disabled').attr('disabled', 'disabled')
+recaptchaCallback = function () {
+    $('.btn-save').removeClass('disabled').removeAttr('disabled');
+};
+</script>
+{{end}}
 
 {{template "footer.html" .}}
