@@ -103,14 +103,14 @@ func (c Page) Save(pageName string) revel.Result {
 	token := c.Params.Get("page.Token")
 	if token != c.Session["token"] {
 		revel.INFO.Println("DETECTED CSRF.")
-		c.SetAction("Page", "Modify")
+		c.ForwardAction("Modify")
 		return c.Modify(pageName)
 	}
 
 	// reCAPTCHA
 	if recaptcha.IsAlways() && !recaptcha.Validate(c.Controller) {
 		revel.INFO.Println("DETECTED INVALID CAPTCHA.")
-		c.SetAction("Page", "Modify")
+		c.ForwardAction("Modify")
 		return c.Modify(pageName)
 	}
 
@@ -121,11 +121,11 @@ func (c Page) Save(pageName string) revel.Result {
 		if recaptcha.IsEnabled() {
 			if !recaptcha.IsAlways() && !recaptcha.Validate(c.Controller) {
 				revel.INFO.Println("DETECTED INVALID CAPTCHA.")
-				c.SetAction("Page", "Modify")
+				c.ForwardAction("Modify")
 				return c.Modify(pageName)
 			}
 		} else {
-			c.SetAction("Page", "Modify")
+			c.ForwardAction("Modify")
 			return c.Modify(pageName)
 		}
 	}

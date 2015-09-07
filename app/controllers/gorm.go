@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"database/sql"
 	"fmt"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/jinzhu/gorm"
@@ -80,14 +81,25 @@ func InitDB() {
 
 // リクエスト時にトランザクションを開始する
 func (c *GormController) Begin() revel.Result {
-	c.db = DB.Begin()
+	if c.db != nil {
+		return nil
+	}
+	db := DB.Begin()
+	if db.Error != nil {
+		panic(db.Error)
+	}
+	c.db = db
 	return nil
 }
 
 // リクエスト終了時にトランザクションを確定する
 func (c *GormController) Commit() revel.Result {
-	if c.db != nil {
-		c.db.Commit()
+	if c.db == nil {
+		return nil
+	}
+	c.db.Commit()
+	if err := c.db.Error; err != nil && err != sql.ErrTxDone {
+		panic(err)
 	}
 	c.db = nil
 	return nil
@@ -95,8 +107,13 @@ func (c *GormController) Commit() revel.Result {
 
 // 異常時にトランザクションを破棄する
 func (c *GormController) Rollback() revel.Result {
-	if c.db != nil {
-		c.db.Rollback()
+	if c.db == nil {
+		return nil
 	}
+	c.db.Rollback()
+	if err := c.db.Error; err != nil && err != sql.ErrTxDone {
+		panic(err)
+	}
+	c.db = nil
 	return nil
 }
