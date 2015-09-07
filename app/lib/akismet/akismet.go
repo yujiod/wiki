@@ -16,7 +16,7 @@ func Validate(c *revel.Controller, body string) bool {
 	if IsEnabled() {
 		akismetKey := revel.Config.StringDefault("akismet.key", "")
 		params := url.Values{}
-		params.Add("blog", c.Request.RequestURI)
+		params.Add("blog", "http://"+c.Request.Host)
 		params.Add("user_ip", c.Request.RemoteAddr)
 		params.Add("user_agent", c.Request.UserAgent())
 		params.Add("referrer", c.Request.Referer())
