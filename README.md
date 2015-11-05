@@ -21,7 +21,7 @@
 * Detect editing page collision
 * and more...
 
-# Using on Dcoker
+# Using on Docker
 
 When you start container exposed port 9000, after open url http://localhost:9000/ from your browser.
 
